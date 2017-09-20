@@ -1,0 +1,10 @@
+j:\user\documents\visual studio 2017\Projects\42run\42run\bin\Debug\42run.exe.config
+j:\user\documents\visual studio 2017\Projects\42run\42run\bin\Debug\42run.exe
+j:\user\documents\visual studio 2017\Projects\42run\42run\bin\Debug\42run.pdb
+j:\user\documents\visual studio 2017\Projects\42run\42run\bin\Debug\OpenTK.dll
+j:\user\documents\visual studio 2017\Projects\42run\42run\bin\Debug\OpenTK.xml
+j:\user\documents\visual studio 2017\Projects\42run\42run\obj\Debug\42run.csprojResolveAssemblyReference.cache
+j:\user\documents\visual studio 2017\Projects\42run\42run\obj\Debug\_42run.Properties.Resources.resources
+j:\user\documents\visual studio 2017\Projects\42run\42run\obj\Debug\42run.csproj.GenerateResource.Cache
+j:\user\documents\visual studio 2017\Projects\42run\42run\obj\Debug\42run.exe
+j:\user\documents\visual studio 2017\Projects\42run\42run\obj\Debug\42run.pdb

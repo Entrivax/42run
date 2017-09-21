@@ -46,9 +46,9 @@ namespace _42run
 
         private void HandleKeyboard()
         {
-            var keyState = Keyboard.GetState();
+            KeyboardHelper.Update();
 
-            if (keyState.IsKeyDown(Key.Escape))
+            if (KeyboardHelper.IsKeyPressed(Key.Escape))
             {
                 Exit();
             }

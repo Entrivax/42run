@@ -1,9 +1,10 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL4;
 using System;
 
-namespace _42run
+namespace _42run.OpenGL
 {
-    public class Vbo<T> : IDisposable where T : struct
+    public class Vbo : IDisposable
     {
         public int Buffer { get; private set; } = -1;
 
@@ -19,9 +20,19 @@ namespace _42run
             GL.BindBuffer(BufferTarget.ArrayBuffer, Buffer);
         }
 
-        public void SetData(T[] data)
+        public void Unbind()
         {
-            GL.BufferData<T>(BufferTarget.ArrayBuffer, (IntPtr)(data.Length * sizeof(T)), T, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+        }
+
+        public void SetData(Vector3[] data)
+        {
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(data.Length * Vector3.SizeInBytes), data, BufferUsageHint.StaticDraw);
+        }
+
+        public void SetData(Vector2[] data)
+        {
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(data.Length * Vector2.SizeInBytes), data, BufferUsageHint.StaticDraw);
         }
 
         public void Dispose()

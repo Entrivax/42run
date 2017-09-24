@@ -39,7 +39,8 @@ namespace _42run
 
         public override void Exit()
         {
-            _shader.Dispose();
+            if (_shader != null)
+                _shader.Dispose();
             _shader = null;
             base.Exit();
         }

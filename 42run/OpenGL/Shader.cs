@@ -89,9 +89,33 @@ namespace _42run.OpenGL
             GL.VertexAttrib4(location, value);
         }
 
+        public void SetUniform1(string attrib, double value)
+        {
+            var location = GL.GetUniformLocation(ProgramId, attrib);
+            GL.Uniform1(location, value);
+        }
+
+        public void SetUniform2(string attrib, ref Vector2 value)
+        {
+            var location = GL.GetUniformLocation(ProgramId, attrib);
+            GL.Uniform2(location, ref value);
+        }
+
+        public void SetUniform3(string attrib, ref Vector3 value)
+        {
+            var location = GL.GetUniformLocation(ProgramId, attrib);
+            GL.Uniform3(location, ref value);
+        }
+
+        public void SetUniform3(string attrib, ref Vector4 value)
+        {
+            var location = GL.GetUniformLocation(ProgramId, attrib);
+            GL.Uniform4(location, ref value);
+        }
+
         public void SetUniformMatrix4(string attrib, bool transpose, ref Matrix4 value)
         {
-            var location = GL.GetAttribLocation(ProgramId, attrib);
+            var location = GL.GetUniformLocation(ProgramId, attrib);
             GL.UniformMatrix4(location, transpose, ref value);
         }
     }

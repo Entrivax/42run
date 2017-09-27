@@ -35,10 +35,16 @@ namespace _42run.OpenGL
             GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(data.Length * Vector2.SizeInBytes), data, BufferUsageHint.StaticDraw);
         }
 
+        public void SetData(Vertex[] data)
+        {
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(data.Length * (Vector2.SizeInBytes + Vector3.SizeInBytes)), data, BufferUsageHint.StaticDraw);
+        }
+
         public void Dispose()
         {
             if (Buffer != -1)
                 GL.DeleteBuffers(1, new []{ Buffer });
+            Buffer = -1;
         }
     }
 }

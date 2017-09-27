@@ -1,6 +1,15 @@
 ﻿#version 400
 
+in vec3 _pos;
+in vec2 _uv;
+
+out vec2 uv;
+
+uniform mat4 proj;
+uniform mat4 view;
+
 void main(void)
 {
-	gl_Position = vec4( 0.25, -0.25,  0.5,  1.0);
+	gl_Position = proj * view * vec4(_pos, 1.0);
+	uv = _uv;
 }

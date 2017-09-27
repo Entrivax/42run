@@ -49,13 +49,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gameplay\AxisAlignedBB.cs" />
     <Compile Include="Gameplay\Camera.cs" />
     <Compile Include="Gameplay\ICollidable.cs" />
+    <Compile Include="Gameplay\Obstacle.cs" />
     <Compile Include="Gameplay\Player.cs" />
     <Compile Include="MainWindow.cs" />
+    <Compile Include="OpenGL\Mesh.cs" />
     <Compile Include="OpenGL\ShaderManager.cs" />
     <Compile Include="OpenGL\Texture.cs" />
     <Compile Include="OpenGL\TextureManager.cs" />
+    <Compile Include="OpenGL\Vertex.cs" />
     <Compile Include="OpenGL\VertexAttribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,5 +1,4 @@
-﻿using _42run.OpenGL;
-using OpenTK.Graphics.OpenGL4;
+﻿using OpenTK.Graphics.OpenGL4;
 using System;
 
 namespace _42run.OpenGL
@@ -17,7 +16,7 @@ namespace _42run.OpenGL
 
         public void BindVbo(Vbo vbo, Shader shader, VertexAttribute[] attributes)
         {
-            GL.BindVertexArray(Array);
+            Bind();
             vbo.Bind();
             
             foreach(var attrib in attributes)
@@ -25,13 +24,25 @@ namespace _42run.OpenGL
                 attrib.Set(shader);
             }
 
-            GL.BindVertexArray(0);
+            Unbind();
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+        }
+
+        public void Bind()
+        {
+            GL.BindVertexArray(Array);
+        }
+
+        public void Unbind()
+        {
+            GL.BindVertexArray(0);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if (Array != -1)
+                GL.DeleteVertexArrays(1, new[] { Array });
+            Array = -1;
         }
     }
 }

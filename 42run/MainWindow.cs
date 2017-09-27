@@ -13,7 +13,9 @@ namespace _42run
     {
         private Shader _shader;
         private Camera _camera;
+        private Matrix4 _proj;
         private double _time;
+        private Mesh _testMesh;
 
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "42run", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default)
         {
@@ -22,6 +24,7 @@ namespace _42run
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(0, 0, Width, Height);
+            _proj = _camera.ComputeProjectionMatrix(Width / (float)Height);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -30,6 +33,9 @@ namespace _42run
             Closed += OnClosed;
             CursorVisible = true;
             _shader = new Shader("Shaders/Shader.vs", "Shaders/Shader.fs");
+            _testMesh = new Mesh();
+            _testMesh.LoadFile("MOON.OBJ");
+            _testMesh.LoadInGl(_shader);
         }
 
         private void OnClosed(object sender, EventArgs eventArgs)
@@ -66,7 +72,23 @@ namespace _42run
             var backColor = new Color4(0.0f, 0.0f, 0.0f, 1.0f);
             GL.ClearColor(backColor);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            
+
+            _camera.Target = new Vector3(0);
+            var phi = _time / Math.PI;
+            _camera.Position = new Vector3((float)Math.Cos(phi) * 10, 0, (float)Math.Sin(phi) * 10);
+            var view = _camera.ComputeViewMatrix();
+
+            {
+                _shader.Bind();
+
+                _shader.SetUniformMatrix4("proj", false, ref _proj);
+                _shader.SetUniformMatrix4("view", false, ref view);
+
+                _testMesh.Draw();
+
+                _shader.Unbind();
+            }
+
             SwapBuffers();
         }
     }

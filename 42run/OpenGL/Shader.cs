@@ -118,5 +118,15 @@ namespace _42run.OpenGL
             var location = GL.GetUniformLocation(ProgramId, attrib);
             GL.UniformMatrix4(location, transpose, ref value);
         }
+
+        public void Bind()
+        {
+            GL.UseProgram(ProgramId);
+        }
+
+        public void Unbind()
+        {
+            GL.UseProgram(0);
+        }
     }
 }

@@ -51,9 +51,11 @@
   <ItemGroup>
     <Compile Include="Gameplay\AxisAlignedBB.cs" />
     <Compile Include="Gameplay\Camera.cs" />
-    <Compile Include="Gameplay\ICollidable.cs" />
+    <Compile Include="Gameplay\Ground.cs" />
+    <Compile Include="Gameplay\Intersection.cs" />
     <Compile Include="Gameplay\Obstacle.cs" />
     <Compile Include="Gameplay\Player.cs" />
+    <Compile Include="Gameplay\World.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="OpenGL\Mesh.cs" />
     <Compile Include="OpenGL\ShaderManager.cs" />

@@ -19,6 +19,7 @@ namespace _42run
 
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "42run", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default)
         {
+            VSync = VSyncMode.Off;
         }
 
         protected override void OnResize(EventArgs e)
@@ -29,6 +30,7 @@ namespace _42run
 
         protected override void OnLoad(EventArgs e)
         {
+            GL.Enable(EnableCap.DepthTest);
             _camera = new Camera(Vector3.Zero, Vector3.UnitZ, (float)(80f * (Math.PI / 180f)));
             Closed += OnClosed;
             CursorVisible = true;
@@ -69,6 +71,7 @@ namespace _42run
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             _time += e.Time;
+            Title = $"42run ; FPS: {1 / e.Time}";
             var backColor = new Color4(0.0f, 0.0f, 0.0f, 1.0f);
             GL.ClearColor(backColor);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

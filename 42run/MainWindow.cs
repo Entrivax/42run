@@ -38,6 +38,7 @@ namespace _42run
             _testMesh = new Mesh();
             _testMesh.LoadFile("MOON.OBJ");
             _testMesh.LoadInGl(_shader);
+            Console.WriteLine($"Model loaded with {_testMesh.Vertices.Length} vertices");
         }
 
         private void OnClosed(object sender, EventArgs eventArgs)

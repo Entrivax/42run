@@ -10,3 +10,4 @@ C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Release\
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Release\42run.csproj.GenerateResource.Cache
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Release\42run.exe
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Release\42run.pdb
+C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Release\42run.csproj.CoreCompileInputs.cache

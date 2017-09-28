@@ -75,6 +75,8 @@ namespace _42run
             Title = $"42run ; FPS: {1 / e.Time} ; v0.01";
             var backColor = new Color4(0.0f, 0.0f, 0.0f, 1.0f);
             GL.ClearColor(backColor);
+            GL.ClearDepth(1);
+            GL.DepthFunc(DepthFunction.Less);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             _camera.Target = new Vector3(0);

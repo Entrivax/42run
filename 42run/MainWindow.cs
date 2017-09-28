@@ -71,7 +71,7 @@ namespace _42run
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             _time += e.Time;
-            Title = $"42run ; FPS: {1 / e.Time}";
+            Title = $"42run ; FPS: {1 / e.Time} ; v0.01";
             var backColor = new Color4(0.0f, 0.0f, 0.0f, 1.0f);
             GL.ClearColor(backColor);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

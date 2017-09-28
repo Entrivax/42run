@@ -16,6 +16,8 @@ namespace _42run
         private Matrix4 _proj;
         private double _time;
         private Mesh _testMesh;
+        private World _world;
+        private Player _player;
 
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "42run", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default)
         {
@@ -39,6 +41,8 @@ namespace _42run
             _testMesh.LoadFile("MOON.OBJ");
             _testMesh.LoadInGl(_shader);
             Console.WriteLine($"Model loaded with {_testMesh.Vertices.Length} vertices");
+            _world = new World();
+            _player = new Player { World = _world, Position = new Vector3(0), Speed = 0.1f, Direction = new Vector3(0, 0, 1) };
         }
 
         private void OnClosed(object sender, EventArgs eventArgs)
@@ -67,6 +71,8 @@ namespace _42run
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             HandleKeyboard();
+
+            _player.Update(e.Time);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -79,16 +85,19 @@ namespace _42run
             GL.DepthFunc(DepthFunction.Less);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            _camera.Target = new Vector3(0);
+            _camera.Target = _player.Position;
             var phi = _time / Math.PI;
-            _camera.Position = new Vector3((float)Math.Cos(phi) * 10, 0, (float)Math.Sin(phi) * 10);
+            _camera.Position = _player.Position + (_player.Direction * 10f) + new Vector3(0, 3, 0);
             var view = _camera.ComputeViewMatrix();
+            var model = Matrix4.CreateTranslation(_player.GetPosition());
+
+            var viewModel = model * view;
 
             {
                 _shader.Bind();
 
                 _shader.SetUniformMatrix4("proj", false, ref _proj);
-                _shader.SetUniformMatrix4("view", false, ref view);
+                _shader.SetUniformMatrix4("view", false, ref viewModel);
 
                 _testMesh.Draw();
 

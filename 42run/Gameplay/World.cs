@@ -6,5 +6,11 @@ namespace _42run.Gameplay
     {
         public List<Obstacle> Obstacles { get; private set; }
         public List<Ground> Grounds { get; private set; }
+
+        public World()
+        {
+            Obstacles = new List<Obstacle>();
+            Grounds = new List<Ground>();
+        }
     }
 }

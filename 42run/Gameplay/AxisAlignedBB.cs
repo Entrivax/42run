@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using _42run.OpenGL;
+using OpenTK;
 
 namespace _42run.Gameplay
 {
@@ -6,6 +7,8 @@ namespace _42run.Gameplay
     {
         public Vector3 Min { get; set; }
         public Vector3 Max { get; set; }
+
+        private static Mesh _mesh;
 
         public AxisAlignedBB(Vector3 min, Vector3 max)
         {
@@ -35,6 +38,21 @@ namespace _42run.Gameplay
             if (other.Max.Y <= Min.Y || other.Min.Y >= Max.Y)
                 return false;
             return other.Max.Z > Min.Z && other.Min.Z < Max.Z;
+        }
+
+        public static void SetMesh(Mesh mesh)
+        {
+            _mesh = mesh;
+        }
+
+        public Matrix4 CreateModelMatrix()
+        {
+            return Matrix4.CreateScale(Max - Min) * Matrix4.CreateTranslation((Max + Min) / 2);
+        }
+
+        public void Draw()
+        {
+            _mesh.Draw(OpenTK.Graphics.OpenGL4.PolygonMode.Line);
         }
     }
 }

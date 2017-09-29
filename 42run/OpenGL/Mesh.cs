@@ -80,6 +80,14 @@ namespace _42run.OpenGL
         public void Draw()
         {
             _vao.Bind();
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length);
+        }
+
+        public void Draw(PolygonMode mode)
+        {
+            _vao.Bind();
+            GL.PolygonMode(MaterialFace.FrontAndBack, mode);
             GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length);
         }
     }

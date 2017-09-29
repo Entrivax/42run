@@ -1,4 +1,5 @@
 ﻿using _42run.OpenGL;
+using OpenTK;
 
 namespace _42run.Gameplay
 {
@@ -6,5 +7,6 @@ namespace _42run.Gameplay
     {
         public Mesh Mesh;
         public AxisAlignedBB BoundingBox;
+        public Vector3 Position;
     }
 }

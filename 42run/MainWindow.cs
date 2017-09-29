@@ -18,10 +18,12 @@ namespace _42run
         private Mesh _testMesh;
         private World _world;
         private Player _player;
+        private Mesh _groundMesh;
+        private Mesh _cubeMesh;
 
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "42run", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default)
         {
-            VSync = VSyncMode.Off;
+            //VSync = VSyncMode.Off;
         }
 
         protected override void OnResize(EventArgs e)
@@ -38,11 +40,34 @@ namespace _42run
             CursorVisible = true;
             _shader = new Shader("Shaders/Shader.vs", "Shaders/Shader.fs");
             _testMesh = new Mesh();
-            _testMesh.LoadFile("MOON.OBJ");
+            _testMesh.LoadFile("player.obj");
             _testMesh.LoadInGl(_shader);
+
+            _groundMesh = new Mesh();
+            _groundMesh.LoadFile("walls.obj");
+            _groundMesh.LoadInGl(_shader);
+
+            _cubeMesh = new Mesh();
+            _cubeMesh.LoadFile("cube.obj");
+            _cubeMesh.LoadInGl(_shader);
+
+            AxisAlignedBB.SetMesh(_cubeMesh);
+
             Console.WriteLine($"Model loaded with {_testMesh.Vertices.Length} vertices");
             _world = new World();
-            _player = new Player { World = _world, Position = new Vector3(0), Speed = 0.1f, Direction = new Vector3(0, 0, 1) };
+            _player = new Player { World = _world, Position = new Vector3(0), Speed = 12.5f, Direction = new Vector3(0, 0, -1) };
+            for(int i = 0; i < 25; i++)
+            {
+                _world.Grounds.Add(new Ground { BoundingBox = new AxisAlignedBB(new Vector3(-3f, -0.5f, -2f), new Vector3(3f, 0f, 2f)), Mesh = _groundMesh, Position = new Vector3(0, 0, -4f * i) });
+            }
+        }
+
+        protected override void OnUnload(EventArgs e)
+        {
+            if (_shader != null)
+                _shader.Dispose();
+            _shader = null;
+            base.OnUnload(e);
         }
 
         private void OnClosed(object sender, EventArgs eventArgs)
@@ -52,9 +77,6 @@ namespace _42run
 
         public override void Exit()
         {
-            if (_shader != null)
-                _shader.Dispose();
-            _shader = null;
             base.Exit();
         }
 
@@ -85,9 +107,11 @@ namespace _42run
             GL.DepthFunc(DepthFunction.Less);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            _camera.Target = _player.Position;
+            var playerPosition = _player.PositionForCamera;
+
+            _camera.Target = playerPosition + new Vector3(0, 2.5f, 0);
             var phi = _time / Math.PI;
-            _camera.Position = _player.Position + (_player.Direction * 10f) + new Vector3(0, 3, 0);
+            _camera.Position = playerPosition + (-_player.Direction * 4f) + new Vector3(0, 3, 0);
             var view = _camera.ComputeViewMatrix();
             var model = Matrix4.CreateTranslation(_player.GetPosition());
 
@@ -100,6 +124,24 @@ namespace _42run
                 _shader.SetUniformMatrix4("view", false, ref viewModel);
 
                 _testMesh.Draw();
+
+
+                model = Player.BoundingBox.CreateModelMatrix() * model;
+                viewModel = model * view;
+                _shader.SetUniformMatrix4("view", false, ref viewModel);
+                Player.BoundingBox.Draw();
+
+                foreach (var ground in _world.Grounds)
+                {
+                    model = Matrix4.CreateTranslation(ground.Position);
+                    viewModel = model * view;
+                    _shader.SetUniformMatrix4("view", false, ref viewModel);
+                    ground.Mesh.Draw();
+                    model = ground.BoundingBox.CreateModelMatrix() * model;
+                    viewModel = model * view;
+                    _shader.SetUniformMatrix4("view", false, ref viewModel);
+                    ground.BoundingBox.Draw();
+                }
 
                 _shader.Unbind();
             }

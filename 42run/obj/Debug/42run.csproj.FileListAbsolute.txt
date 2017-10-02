@@ -23,3 +23,5 @@ C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Debug\42
 J:\User\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Shaders\Shader.fs
 J:\User\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Shaders\Shader.vs
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Debug\42run.csproj.CoreCompileInputs.cache
+C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Shaders\SpriteSheet.fs
+C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Shaders\SpriteSheet.vs

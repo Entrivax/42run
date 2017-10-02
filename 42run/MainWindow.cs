@@ -20,6 +20,9 @@ namespace _42run
         private Player _player;
         private Mesh _groundMesh;
         private Mesh _cubeMesh;
+        private Shader _3dSpriteShader;
+        private SpriteSheet _playerSpriteSheet;
+        private Mesh _playerMesh;
 
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "42run", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default)
         {
@@ -39,6 +42,7 @@ namespace _42run
             Closed += OnClosed;
             CursorVisible = true;
             _shader = new Shader("Shaders/Shader.vs", "Shaders/Shader.fs");
+            _3dSpriteShader = new Shader("Shaders/SpriteSheet.vs", "Shaders/SpriteSheet.fs");
             _testMesh = new Mesh();
             _testMesh.LoadFile("player.obj");
             _testMesh.LoadInGl(_shader);
@@ -53,13 +57,30 @@ namespace _42run
 
             AxisAlignedBB.SetMesh(_cubeMesh);
 
-            Console.WriteLine($"Model loaded with {_testMesh.Vertices.Length} vertices");
+            _playerSpriteSheet = new SpriteSheet("running_link.png", 24, 32);
+            var x = ((24 / 32f) * 1.7f) / 2;
+            _playerMesh = new Mesh
+            {
+                Vertices = new Vertex[]
+                {
+                    new Vertex(new Vector3(-x, 1.7f, 0f), new Vector2(0, 0)),
+                    new Vertex(new Vector3(-x, 0f, 0f), new Vector2(0, 1)),
+                    new Vertex(new Vector3(x, 1.7f, 0f), new Vector2(1, 0)),
+
+                    new Vertex(new Vector3(x, 1.7f, 0f), new Vector2(1, 0)),
+                    new Vertex(new Vector3(-x, 0f, 0f), new Vector2(0, 1)),
+                    new Vertex(new Vector3(x, 0f, 0f), new Vector2(1, 1)),
+                }
+            };
+            _playerMesh.LoadInGl(_3dSpriteShader);
+
             _world = new World();
             _player = new Player { World = _world, Position = new Vector3(0), Speed = 12.5f, Direction = new Vector3(0, 0, -1) };
             for(int i = 0; i < 25; i++)
             {
                 _world.Grounds.Add(new Ground { BoundingBox = new AxisAlignedBB(new Vector3(-3f, -0.5f, -2f), new Vector3(3f, 0f, 2f)), Mesh = _groundMesh, Position = new Vector3(0, 0, -4f * i) });
             }
+            _world.Obstacles.Add(new Obstacle(null, new AxisAlignedBB(new Vector3(-1, 0, -1), new Vector3(1, 3, 1)), new Vector3(new Random().Next(3), 0, -20)));
         }
 
         protected override void OnUnload(EventArgs e)
@@ -121,9 +142,6 @@ namespace _42run
                 _shader.Bind();
 
                 _shader.SetUniformMatrix4("proj", false, ref _proj);
-                _shader.SetUniformMatrix4("view", false, ref viewModel);
-
-                _testMesh.Draw();
 
 
                 model = Player.BoundingBox.CreateModelMatrix() * model;
@@ -143,7 +161,41 @@ namespace _42run
                     ground.BoundingBox.Draw();
                 }
 
+                foreach (var obstacle in _world.Obstacles)
+                {
+                    model = Matrix4.CreateTranslation(obstacle.Position);
+                    viewModel = model * view;
+                    _shader.SetUniformMatrix4("view", false, ref viewModel);
+                    obstacle.Mesh?.Draw();
+                    model = obstacle.BoundingBox.CreateModelMatrix() * model;
+                    viewModel = model * view;
+                    _shader.SetUniformMatrix4("view", false, ref viewModel);
+                    obstacle.BoundingBox.Draw();
+                }
+
                 _shader.Unbind();
+            }
+
+            {
+                _3dSpriteShader.Bind();
+
+                GL.ActiveTexture(TextureUnit.Texture0);
+                GL.BindTexture(TextureTarget.Texture2DArray, _playerSpriteSheet.Id);
+
+                _3dSpriteShader.SetUniformMatrix4("proj", false, ref _proj);
+                model = Matrix4.CreateTranslation(_player.GetPosition());
+                viewModel = model * view;
+                _3dSpriteShader.SetUniformMatrix4("view", false, ref viewModel);
+                _3dSpriteShader.SetUniform1("texNum", ((int)(_time * 7)) % 10);
+
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
+                _playerMesh.Draw();
+
+                GL.Disable(EnableCap.Blend);
+
+                _3dSpriteShader.Unbind();
             }
 
             SwapBuffers();

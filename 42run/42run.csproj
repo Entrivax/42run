@@ -62,6 +62,7 @@
     <Compile Include="MainWindow.cs" />
     <Compile Include="OpenGL\Mesh.cs" />
     <Compile Include="OpenGL\ShaderManager.cs" />
+    <Compile Include="OpenGL\SpriteSheet.cs" />
     <Compile Include="OpenGL\Texture.cs" />
     <Compile Include="OpenGL\TextureManager.cs" />
     <Compile Include="OpenGL\Vertex.cs" />
@@ -99,6 +100,12 @@
     <Compile Include="Helpers\KeyboardHelper.cs" />
     <Compile Include="OpenGL\Vbo.cs" />
     <Compile Include="OpenGL\Vao.cs" />
+    <None Include="Shaders\SpriteSheet.fs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\SpriteSheet.vs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using System;
 using System.Linq;
 
 namespace _42run.Gameplay
@@ -11,7 +12,7 @@ namespace _42run.Gameplay
         private float _lastY = 0;
         public Vector3 PositionForCamera => new Vector3(Position.X, _lastY, Position.Z);
         public float Speed { get; set; }
-        public static AxisAlignedBB BoundingBox { get; } = new AxisAlignedBB(new Vector3(-1.2f, 0, -1.2f), new Vector3(1.2f, 1.7f, 1.2f));
+        public static AxisAlignedBB BoundingBox { get; } = new AxisAlignedBB(new Vector3(-0.6375f, 0, -0.65f), new Vector3(0.6375f, 1.7f, 0f));
         public World World { get; set; }
         private Vector2 _lastTurn;
         private const float _maxSidewayDistance = 2f;
@@ -26,6 +27,10 @@ namespace _42run.Gameplay
         
         public void Update(double time)
         {
+            if (Dead)
+            {
+                return;
+            }
             if (KeyboardHelper.GetKeyboardState().IsKeyDown(OpenTK.Input.Key.Right))
             {
                 _sidewayMove -= _sidewaySpeed;
@@ -86,6 +91,9 @@ namespace _42run.Gameplay
 
             if (_onGround)
                 _lastY = Position.Y;
+
+            if (CollideWithObstacle())
+                Dead = true;
         }
 
         private Matrix3 _rotationRight = Matrix3.CreateRotationY(-MathHelper.PiOver2);
@@ -101,6 +109,12 @@ namespace _42run.Gameplay
             return (Intersection)World.Grounds.FirstOrDefault(g => g.GetType() == typeof(Intersection) && ((Intersection)g).ActivableBoundingBox.IntersectWith(g.Position, BoundingBox, pos));
         }
 
-        public bool CheckIfCollideWith(Obstacle obstacle) => BoundingBox.IntersectWith(obstacle.BoundingBox);
+        public bool CollideWithObstacle()
+        {
+            var position = GetPosition();
+            return World.Obstacles.Any(obstacle => CheckIfCollideWith(obstacle, position));
+        }
+
+        public bool CheckIfCollideWith(Obstacle obstacle, Vector3 position) => BoundingBox.IntersectWith(position, obstacle.BoundingBox, obstacle.Position);
     }
 }

@@ -54,10 +54,15 @@
   <ItemGroup>
     <Compile Include="Gameplay\AxisAlignedBB.cs" />
     <Compile Include="Gameplay\Camera.cs" />
+    <Compile Include="Gameplay\Direction.cs" />
     <Compile Include="Gameplay\Ground.cs" />
+    <Compile Include="Gameplay\GroundFactory.cs" />
     <Compile Include="Gameplay\Intersection.cs" />
     <Compile Include="Gameplay\Obstacle.cs" />
     <Compile Include="Gameplay\Player.cs" />
+    <Compile Include="Gameplay\TerrainGenerator.cs" />
+    <Compile Include="Gameplay\TerrainRemover.cs" />
+    <Compile Include="Gameplay\Trigger.cs" />
     <Compile Include="Gameplay\World.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="OpenGL\Mesh.cs" />

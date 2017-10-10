@@ -15,6 +15,11 @@ namespace _42run.Gameplay
             Fov = fov;
         }
 
+        public void UpdateCameraPosition(Vector3 toPosition, float delta, float speed)
+        {
+            Position = Vector3.Lerp(Position, toPosition, delta * speed);
+        }
+
         public Matrix4 ComputeProjectionMatrix(float ratio)
         {
             return Matrix4.CreatePerspectiveFieldOfView(Fov, ratio, 0.1f, 100f);

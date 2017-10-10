@@ -70,7 +70,7 @@ namespace _42run.Gameplay
             {
                 if (KeyboardHelper.IsKeyPressed(OpenTK.Input.Key.Left))
                 {
-                    Position = new Vector3(intersection.Position.X, Position.Y, intersection.Position.Z);
+                    Position = new Vector3(intersection.Position.X, Position.Y, intersection.Position.Z) + DirectionHelper.GetVectorFromDirection(intersection.Direction) * 3f;
                     var dir = (int)CurrentDirection - 1;
                     if (dir < 0)
                         dir = (int)Direction.WEST;
@@ -79,7 +79,7 @@ namespace _42run.Gameplay
                 }
                 else if (KeyboardHelper.IsKeyPressed(OpenTK.Input.Key.Right))
                 {
-                    Position = new Vector3(intersection.Position.X, Position.Y, intersection.Position.Z);
+                    Position = new Vector3(intersection.Position.X, Position.Y, intersection.Position.Z) + DirectionHelper.GetVectorFromDirection(intersection.Direction) * 3f;
                     var dir = (int)CurrentDirection + 1;
                     if (dir > 3)
                         dir = (int)Direction.NORTH;

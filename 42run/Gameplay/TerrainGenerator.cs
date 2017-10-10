@@ -43,15 +43,19 @@ namespace _42run.Gameplay
                 int toGenerate = _rand.Next(10) + 5;
                 List<Ground> generatedGrounds = new List<Ground>();
                 var dirVector = DirectionHelper.GetVectorFromDirection(direction);
+                var nextPosition = _intersection.Position + dirVector * 3f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
                 for (int i = 0; i < toGenerate; i++)
                 {
-                    generatedGrounds.Add(GroundFactory.NewGround(_intersection.Position + (i + 1) * dirVector * 6f, direction));
+                    generatedGrounds.Add(GroundFactory.NewGround(nextPosition, direction, out nextPosition));
                 }
-                var intersection = GroundFactory.NewIntersection(_player, _player.World, _intersection.Position + (toGenerate + 1) * dirVector * 6f, direction, _rand.Next(1, 4));
+                var intersection = GroundFactory.NewIntersection(_player, _player.World, nextPosition, direction, _rand.Next(1, 4));
                 generatedGrounds.Add(intersection);
                 _player.World.Grounds.AddRange(generatedGrounds);
 
-                leftTerrainRemover = new TerrainRemover(_player, generatedGrounds, new List<Trigger>(_player.World.TriggersToAdd.ToArray())) { Position = _intersection.Position + dirVector * 10f, BoundingBox = new AxisAlignedBB(new Vector3(-3f, 0, -3f), new Vector3(3f, 3f, 3f)) };
+                var rotation = DirectionHelper.GetRotationFromDirection(direction);
+                var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
+                var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
+                leftTerrainRemover = new TerrainRemover(_player, generatedGrounds, new List<Trigger>(_player.World.TriggersToAdd.ToArray())) { Position = _intersection.Position + dirVector * 10f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
                 _player.World.TriggersToAdd.Add(leftTerrainRemover);
             }
             if ((_intersection.Directions & (int)Intersection.IntersectionDirection.RIGHT) > 0)
@@ -63,11 +67,12 @@ namespace _42run.Gameplay
                 int toGenerate = _rand.Next(10) + 5;
                 List<Ground> generatedGrounds = new List<Ground>();
                 var dirVector = DirectionHelper.GetVectorFromDirection(direction);
+                var nextPosition = _intersection.Position + dirVector * 3f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
                 for (int i = 0; i < toGenerate; i++)
                 {
-                    generatedGrounds.Add(GroundFactory.NewGround(_intersection.Position + (i + 1) * dirVector * 6f, direction));
+                    generatedGrounds.Add(GroundFactory.NewGround(nextPosition, direction, out nextPosition));
                 }
-                var intersection = GroundFactory.NewIntersection(_player, _player.World, _intersection.Position + (toGenerate + 1) * dirVector * 6f, direction, _rand.Next(1, 4));
+                var intersection = GroundFactory.NewIntersection(_player, _player.World, nextPosition, direction, _rand.Next(1, 4));
                 generatedGrounds.Add(intersection);
                 _player.World.Grounds.AddRange(generatedGrounds);
 
@@ -76,7 +81,10 @@ namespace _42run.Gameplay
                 if (leftTerrainRemover != null && triggersToKeep.Contains(leftTerrainRemover))
                     triggersToKeep.Remove(leftTerrainRemover);
 
-                var terrainRemover = new TerrainRemover(_player, generatedGrounds, triggersToKeep) { Position = _intersection.Position + dirVector * 10f, BoundingBox = new AxisAlignedBB(new Vector3(-3f, 0, -3f), new Vector3(3f, 3f, 3f)) };
+                var rotation = DirectionHelper.GetRotationFromDirection(direction);
+                var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
+                var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
+                var terrainRemover = new TerrainRemover(_player, generatedGrounds, triggersToKeep) { Position = _intersection.Position + dirVector * 10f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
                 _player.World.TriggersToAdd.Add(terrainRemover);
             }
         }

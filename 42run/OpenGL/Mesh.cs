@@ -84,6 +84,15 @@ namespace _42run.OpenGL
             GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length);
         }
 
+        public void Draw(Texture texture)
+        {
+            TextureManager.Use(texture);
+            _vao.Bind();
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length);
+            TextureManager.Disable();
+        }
+
         public void Draw(PolygonMode mode)
         {
             _vao.Bind();

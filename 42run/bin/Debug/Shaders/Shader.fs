@@ -3,6 +3,8 @@
 in vec2 ppos;
 in vec2 uv;
 
+uniform vec3 col;
+
 out vec4 color;
 
 vec3 hsv2rgb(vec3 c) {
@@ -13,5 +15,5 @@ vec3 hsv2rgb(vec3 c) {
 
 void main(void)
 {
-	color = vec4(hsv2rgb(vec3(ppos.x, 1.0, 1.0)), 1.0);
+	color = vec4(col, 1);//vec4(hsv2rgb(vec3(ppos.x, 1.0, 1.0)), 1.0);
 }

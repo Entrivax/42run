@@ -57,6 +57,7 @@
     <Compile Include="Gameplay\Direction.cs" />
     <Compile Include="Gameplay\Ground.cs" />
     <Compile Include="Gameplay\GroundFactory.cs" />
+    <Compile Include="Gameplay\GroundSimple.cs" />
     <Compile Include="Gameplay\Intersection.cs" />
     <Compile Include="Gameplay\Obstacle.cs" />
     <Compile Include="Gameplay\Player.cs" />

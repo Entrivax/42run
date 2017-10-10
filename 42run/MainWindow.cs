@@ -23,6 +23,9 @@ namespace _42run
         private Shader _3dSpriteShader;
         private SpriteSheet _playerSpriteSheet;
         private Mesh _playerMesh;
+        private Mesh _interLeftMesh;
+        private Mesh _interRightMesh;
+        private Mesh _interLeftRightMesh;
 
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "42run", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default)
         {
@@ -50,12 +53,30 @@ namespace _42run
             _groundMesh = new Mesh();
             _groundMesh.LoadFile("walls.obj");
             _groundMesh.LoadInGl(_shader);
-
-            GroundFactory.GroundMesh = _groundMesh;
+            
+            GroundSimple.MeshToUse = _groundMesh;
 
             _cubeMesh = new Mesh();
             _cubeMesh.LoadFile("cube.obj");
             _cubeMesh.LoadInGl(_shader);
+
+            _interLeftMesh = new Mesh();
+            _interLeftMesh.LoadFile("inter_l.obj");
+            _interLeftMesh.LoadInGl(_shader);
+
+            Intersection.Left_Mesh = _interLeftMesh;
+
+            _interRightMesh = new Mesh();
+            _interRightMesh.LoadFile("inter_r.obj");
+            _interRightMesh.LoadInGl(_shader);
+
+            Intersection.Right_Mesh = _interRightMesh;
+
+            _interLeftRightMesh = new Mesh();
+            _interLeftRightMesh.LoadFile("inter_lr.obj");
+            _interLeftRightMesh.LoadInGl(_shader);
+
+            Intersection.LeftRight_Mesh = _interLeftRightMesh;
 
             AxisAlignedBB.SetMesh(_cubeMesh);
 
@@ -80,9 +101,10 @@ namespace _42run
             _player = new Player { World = _world, Position = new Vector3(0), Speed = 12.5f };
             for(int i = 0; i < 25; i++)
             {
-                _world.Grounds.Add(new Ground { BoundingBox = new AxisAlignedBB(new Vector3(-3f, -0.5f, -2f), new Vector3(3f, 0f, 2f)), Mesh = _groundMesh, Position = new Vector3(0, 0, -4f * i), Direction = Direction.NORTH });
+                _world.Grounds.Add(new Ground { BoundingBox = new AxisAlignedBB(new Vector3(-3f, -0.5f, 0f), new Vector3(3f, 0f, 6f)), Mesh = _groundMesh, Position = new Vector3(0, 0, -6f * i), Direction = Direction.NORTH });
             }
-            _world.Grounds.Add(new Intersection(_player, _world, new Vector3(0, 0, -4f * 25 - 0.3f), Direction.NORTH) { BoundingBox = new AxisAlignedBB(new Vector3(-3f, -0.5f, -2f), new Vector3(3f, 0f, 2f)), ActivableBoundingBox = new AxisAlignedBB(new Vector3(-3f, 0f, -1f), new Vector3(3f, 3f, 1f)), Mesh = _groundMesh, Directions = (int)Intersection.IntersectionDirection.LEFT });
+            _world.Grounds.Add(GroundFactory.NewIntersection(_player, _world, new Vector3(0, 0, -6f * 25), Direction.NORTH, (int)Intersection.IntersectionDirection.LEFT));
+            //_world.Grounds.Add(new Intersection(_player, _world, new Vector3(0, 0, -6f * 25 - 0.3f), Direction.NORTH) { BoundingBox = new AxisAlignedBB(new Vector3(-3f, -0.5f, -2f), new Vector3(3f, 0f, 2f)), ActivableBoundingBox = new AxisAlignedBB(new Vector3(-3f, 0f, -1f), new Vector3(3f, 3f, 1f)), Mesh = _groundMesh, Directions = (int)Intersection.IntersectionDirection.LEFT });
             _world.Obstacles.Add(new Obstacle(null, new AxisAlignedBB(new Vector3(-1, 0, -1), new Vector3(1, 3, 1)), new Vector3(new Random().Next(3), 0, -20)));
         }
 
@@ -118,9 +140,13 @@ namespace _42run
         {
             HandleKeyboard();
 
+            if (KeyboardHelper.IsKeyPressed(Key.A))
+                cam = !cam;
             _player.Update(e.Time);
             _world.Update();
         }
+
+        bool cam = false;
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -135,8 +161,10 @@ namespace _42run
             var playerPosition = _player.PositionForCamera;
 
             _camera.Target = playerPosition + new Vector3(0, 2.5f, 0);
-            _camera.Position = playerPosition + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f) + new Vector3(0, 3, 0);
+            if (cam)
+                _camera.UpdateCameraPosition(playerPosition + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f) + new Vector3(0, 3, 0), (float)e.Time, 5f);
             // DEBUG CAM
+            else
             _camera.Position = new Vector3(playerPosition.X, 10, playerPosition.Z) + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f);
             var view = _camera.ComputeViewMatrix();
             var model = Matrix4.CreateTranslation(_player.GetPosition());
@@ -154,22 +182,30 @@ namespace _42run
                 _shader.SetUniformMatrix4("view", false, ref viewModel);
                 _player.BoundingBox.Draw();
 
+                var color = new Vector3(1, 1, 1);
+
                 foreach (var ground in _world.Grounds.ToArray())
                 {
                     model = DirectionHelper.GetRotationFromDirection(ground.Direction) * Matrix4.CreateTranslation(ground.Position);
                     
                     viewModel = model * view;
+                    color = new Vector3(0.8f, 0.8f, 0.8f);
+                    _shader.SetUniform3("col", ref color);
                     _shader.SetUniformMatrix4("view", false, ref viewModel);
                     ground.Mesh.Draw();
-                    model = ground.BoundingBox.CreateModelMatrix() * model;
+                    model = ground.BoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
                     viewModel = model * view;
+                    color = new Vector3(0.7f, 0.7f, 0.7f);
+                    _shader.SetUniform3("col", ref color);
                     _shader.SetUniformMatrix4("view", false, ref viewModel);
                     ground.BoundingBox.Draw();
                     if(ground.GetType() == typeof(Intersection))
                     {
                         var inter = (Intersection)ground;
-                        model = inter.ActivableBoundingBox.CreateModelMatrix() * model;
+                        model = inter.ActivableBoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
                         viewModel = model * view;
+                        color = new Vector3(0, 1, 0);
+                        _shader.SetUniform3("col", ref color);
                         _shader.SetUniformMatrix4("view", false, ref viewModel);
                         inter.ActivableBoundingBox.Draw();
                     }
@@ -179,14 +215,20 @@ namespace _42run
                 {
                     model = Matrix4.CreateTranslation(obstacle.Position);
                     viewModel = model * view;
+                    color = new Vector3(0.7f, 0.2f, 1f);
+                    _shader.SetUniform3("col", ref color);
                     _shader.SetUniformMatrix4("view", false, ref viewModel);
                     obstacle.Mesh?.Draw();
                     model = obstacle.BoundingBox.CreateModelMatrix() * model;
                     viewModel = model * view;
+                    color = new Vector3(0.1f, 0.2f, 1f);
+                    _shader.SetUniform3("col", ref color);
                     _shader.SetUniformMatrix4("view", false, ref viewModel);
                     obstacle.BoundingBox.Draw();
                 }
-                
+
+                color = new Vector3(1f, 0.6f, 0.2f);
+                _shader.SetUniform3("col", ref color);
                 foreach (var trigger in _world.Triggers.ToArray())
                 {
                     model = trigger.BoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(trigger.Position);
@@ -212,7 +254,7 @@ namespace _42run
 
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
+                
                 _playerMesh.Draw();
 
                 GL.Disable(EnableCap.Blend);

@@ -8,6 +8,7 @@ namespace _42run.Gameplay
         public Mesh Mesh;
         public AxisAlignedBB BoundingBox;
         public Vector3 Position;
+        public float Length;
         public Direction Direction;
     }
 }

@@ -24,3 +24,4 @@ C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Debug\42
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Debug\42run.csproj.CoreCompileInputs.cache
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Debug\42run.exe
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Debug\42run.pdb
+C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Debug\42run.csprojResolveAssemblyReference.cache

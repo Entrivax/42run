@@ -5,26 +5,22 @@ namespace _42run.Gameplay
 {
     public static class GroundFactory
     {
-        public static Mesh GroundMesh { get; set; }
 
-        public static Ground NewGround(Vector3 position, Direction direction)
+        public static Ground NewGround(Vector3 position, Direction direction, out Vector3 next)
         {
-            var rotation = DirectionHelper.GetRotationFromDirection(direction);
-            var p1 = new Vector4(-3f, -0.5f, -3f, 1) * rotation;
-            var p2 = new Vector4(3f, 0f, 3f, 1) * rotation;
-            var p1v3 = new Vector3(p1);
-            var p2v3 = new Vector3(p2);
-            return new Ground { BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(p1v3, p2v3), Vector3.ComponentMax(p1v3, p2v3)), Mesh = GroundMesh, Position = position, Direction = direction };
+            var ground = new GroundSimple(direction) { Position = position };
+            next = position + DirectionHelper.GetVectorFromDirection(direction) * ground.Length;
+            return ground;
         }
 
         public static Intersection NewIntersection(Player player, World world, Vector3 position, Direction direction, int directions)
         {
             var rotation = DirectionHelper.GetRotationFromDirection(direction);
-            var p1 = new Vector4(-3f, -0.5f, -2f, 1) * rotation;
-            var p2 = new Vector4(3f, 0f, 2f, 1) * rotation;
-            var p1v3 = new Vector3(p1);
-            var p2v3 = new Vector3(p2);
-            return new Intersection(player, world, position, direction) { BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(p1v3, p2v3), Vector3.ComponentMax(p1v3, p2v3)), Mesh = GroundMesh, ActivableBoundingBox = new AxisAlignedBB(new Vector3(-3f, 0f, -3f), new Vector3(3f, 3f, 3f)), Directions = directions, Used = false };
+            var p1 = new Vector3(new Vector4(-3f, -0.5f, 0f, 1) * rotation);
+            var p2 = new Vector3(new Vector4(3f, 0f, 6f, 1) * rotation);
+            var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
+            var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
+            return new Intersection(player, world, position, direction) { BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(p1, p2), Vector3.ComponentMax(p1, p2)), ActivableBoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)), Directions = directions, Used = false };
         }
     }
 }

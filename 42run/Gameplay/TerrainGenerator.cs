@@ -53,9 +53,26 @@ namespace _42run.Gameplay
                 _player.World.Grounds.AddRange(generatedGrounds);
 
                 var rotation = DirectionHelper.GetRotationFromDirection(direction);
+                var wallsColliders = new List<Obstacle>();
+
+                var w1p1 = new Vector3(new Vector4(-3f, 0f, -7f, 1) * rotation);
+                var w1p2 = new Vector3(new Vector4(3f, 5f, -6f, 1) * rotation);
+                wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w1p1, w1p2), Vector3.ComponentMax(w1p1, w1p2)), intersection.Position));
+                if (intersection.Directions == (int)Intersection.IntersectionDirection.LEFT)
+                {
+                    var w2p1 = new Vector3(new Vector4(3f, 0f, -6f, 1) * rotation);
+                    var w2p2 = new Vector3(new Vector4(4f, 5f, 0f, 1) * rotation);
+                    wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position));
+                }
+                if (intersection.Directions == (int)Intersection.IntersectionDirection.RIGHT)
+                {
+                    var w2p1 = new Vector3(new Vector4(-4f, 0f, -6f, 1) * rotation);
+                    var w2p2 = new Vector3(new Vector4(-3f, 5f, 0f, 1) * rotation);
+                    wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position));
+                }
                 var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
                 var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
-                leftTerrainRemover = new TerrainRemover(_player, generatedGrounds, new List<Trigger>(_player.World.TriggersToAdd.ToArray())) { Position = _intersection.Position + dirVector * 10f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
+                leftTerrainRemover = new TerrainRemover(_player, generatedGrounds, new List<Trigger>(_player.World.TriggersToAdd.ToArray()), wallsColliders) { Position = _intersection.Position + dirVector * 10f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
                 _player.World.TriggersToAdd.Add(leftTerrainRemover);
             }
             if ((_intersection.Directions & (int)Intersection.IntersectionDirection.RIGHT) > 0)
@@ -82,9 +99,26 @@ namespace _42run.Gameplay
                     triggersToKeep.Remove(leftTerrainRemover);
 
                 var rotation = DirectionHelper.GetRotationFromDirection(direction);
+                var wallsColliders = new List<Obstacle>();
+
+                var w1p1 = new Vector3(new Vector4(-3f, 0f, -7f, 1) * rotation);
+                var w1p2 = new Vector3(new Vector4(3f, 5f, -6f, 1) * rotation);
+                wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w1p1, w1p2), Vector3.ComponentMax(w1p1, w1p2)), intersection.Position));
+                if (intersection.Directions == (int)Intersection.IntersectionDirection.LEFT)
+                {
+                    var w2p1 = new Vector3(new Vector4(3f, 0f, -6f, 1) * rotation);
+                    var w2p2 = new Vector3(new Vector4(4f, 5f, 0f, 1) * rotation);
+                    wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position));
+                }
+                if (intersection.Directions == (int)Intersection.IntersectionDirection.RIGHT)
+                {
+                    var w2p1 = new Vector3(new Vector4(-4f, 0f, -6f, 1) * rotation);
+                    var w2p2 = new Vector3(new Vector4(-3f, 5f, 0f, 1) * rotation);
+                    wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position));
+                }
                 var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
                 var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
-                var terrainRemover = new TerrainRemover(_player, generatedGrounds, triggersToKeep) { Position = _intersection.Position + dirVector * 10f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
+                var terrainRemover = new TerrainRemover(_player, generatedGrounds, triggersToKeep, wallsColliders) { Position = _intersection.Position + dirVector * 10f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
                 _player.World.TriggersToAdd.Add(terrainRemover);
             }
         }

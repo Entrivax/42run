@@ -6,12 +6,14 @@ namespace _42run.Gameplay
     {
         private List<Ground> _groundsToKeep;
         private List<Trigger> _triggersToKeep;
+        private List<Obstacle> _obstaclesToKeep;
         private Player _player;
 
-        public TerrainRemover(Player player, List<Ground> groundsToKeep, List<Trigger> triggersToKeep)
+        public TerrainRemover(Player player, List<Ground> groundsToKeep, List<Trigger> triggersToKeep, List<Obstacle> obstaclesToKeep)
         {
             _groundsToKeep = groundsToKeep;
             _triggersToKeep = triggersToKeep;
+            _obstaclesToKeep = obstaclesToKeep;
             _player = player;
         }
 
@@ -32,6 +34,8 @@ namespace _42run.Gameplay
             _player.World.Grounds.AddRange(_groundsToKeep);
             _player.World.TriggersToRemove.AddRange(_player.World.Triggers);
             _player.World.TriggersToAdd.AddRange(_triggersToKeep);
+            _player.World.Obstacles.Clear();
+            _player.World.Obstacles.AddRange(_obstaclesToKeep);
         }
     }
 }

@@ -9,6 +9,29 @@ namespace _42run.OpenGL
     {
         public int Id { get; private set; } = -1;
 
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+
+        public Texture(int width, int height)
+        {
+            int texId;
+            GL.GenTextures(1, out texId);
+            Id = texId;
+            GL.BindTexture(TextureTarget.Texture2D, Id);
+
+            Width = width;
+            Height = height;
+
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, Width, Height, 0,
+                OpenTK.Graphics.OpenGL4.PixelFormat.Bgra, PixelType.UnsignedByte, (IntPtr)0);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+        }
+
         public Texture(string file) : this(new Bitmap(file), true) { }
 
         public Texture(Bitmap bitmap, bool disposeBitmap = false)
@@ -18,6 +41,8 @@ namespace _42run.OpenGL
             Id = texId;
             GL.BindTexture(TextureTarget.Texture2D, Id);
 
+            Width = bitmap.Width;
+            Height = bitmap.Height;
             var data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 

@@ -5,13 +5,16 @@ in vec2 _uv;
 
 out vec2 uv;
 out vec2 ppos;
+out float dist;
 
 uniform mat4 proj;
 uniform mat4 view;
 
 void main(void)
 {
-	gl_Position = proj * view * vec4(_pos, 1.0);
+	vec4 viewspace = view * vec4(_pos, 1.0);
+	dist = length(viewspace);
+	gl_Position = proj * viewspace;
 	ppos = _pos.xy;
 	uv = _uv;
 }

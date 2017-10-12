@@ -2,5 +2,6 @@
 
 newmtl default
 Kd 1.00000000000000 1.00000000000000 1.00000000000000
+map_Kd inter_l.png
 illum 7
 

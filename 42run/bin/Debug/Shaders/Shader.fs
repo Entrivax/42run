@@ -1,9 +1,14 @@
 ﻿#version 400
 
+#define FOG_START 20
+#define FOG_END 60
+
 in vec2 ppos;
 in vec2 uv;
+in float dist;
 
 uniform vec3 col;
+uniform sampler2D tex;
 
 out vec4 color;
 
@@ -15,5 +20,6 @@ vec3 hsv2rgb(vec3 c) {
 
 void main(void)
 {
-	color = vec4(col, 1);//vec4(hsv2rgb(vec3(ppos.x, 1.0, 1.0)), 1.0);
+	float fog = clamp((FOG_END - dist) / (FOG_END - FOG_START), 0.0, 1.0);
+	color = mix(texture(tex, uv), vec4(0, 0, 0, 1), 1 - fog);//vec4(hsv2rgb(vec3(ppos.x, 1.0, 1.0)), 1.0);
 }

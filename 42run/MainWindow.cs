@@ -14,6 +14,7 @@ namespace _42run
         private Shader _shader;
         private Camera _camera;
         private Matrix4 _proj;
+        private Matrix4 _guiProj;
         private double _time;
         private Mesh _testMesh;
         private World _world;
@@ -26,6 +27,13 @@ namespace _42run
         private Mesh _interLeftMesh;
         private Mesh _interRightMesh;
         private Mesh _interLeftRightMesh;
+        private Texture _interLeftTex;
+        private Texture _interRightTex;
+        private Texture _interLeftRightTex;
+        private Texture _wallTex;
+        private Font _font;
+        private Shader _flatColorShader;
+        private Text _scoreText;
 
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "42run", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default)
         {
@@ -36,6 +44,7 @@ namespace _42run
         {
             GL.Viewport(0, 0, Width, Height);
             _proj = _camera.ComputeProjectionMatrix(Width / (float)Height);
+            _guiProj = Matrix4.CreateOrthographic(Width, Height, 0, 1);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -44,36 +53,47 @@ namespace _42run
             _camera = new Camera(Vector3.Zero, Vector3.UnitZ, (float)(80f * (Math.PI / 180f)));
             Closed += OnClosed;
             CursorVisible = true;
+
             _shader = new Shader("Shaders/Shader.vs", "Shaders/Shader.fs");
+            _flatColorShader = new Shader("Shaders/FlatColorShader.vs", "Shaders/FlatColorShader.fs");
             _3dSpriteShader = new Shader("Shaders/SpriteSheet.vs", "Shaders/SpriteSheet.fs");
+
+            _font = new Font("glyphs.png", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789=*-+[]{}()|\\,./<>?;:'\"");
+            _scoreText = new Text(new Vector2(10, 10), _font, _flatColorShader, "Test");
+
+            _interLeftTex = new Texture("inter_l.png");
+            _interRightTex = new Texture("inter_r.png");
+            _interLeftRightTex = new Texture("inter_lr.png");
+            _wallTex = new Texture("wall.png");
+
             _testMesh = new Mesh();
-            _testMesh.LoadFile("player.obj");
+            _testMesh.LoadFile("player.obj", false, false, false);
             _testMesh.LoadInGl(_shader);
 
             _groundMesh = new Mesh();
-            _groundMesh.LoadFile("walls.obj");
+            _groundMesh.LoadFile("wall.obj", false, false, true);
             _groundMesh.LoadInGl(_shader);
             
             GroundSimple.MeshToUse = _groundMesh;
 
             _cubeMesh = new Mesh();
-            _cubeMesh.LoadFile("cube.obj");
+            _cubeMesh.LoadFile("cube.obj", false, false, false);
             _cubeMesh.LoadInGl(_shader);
 
             _interLeftMesh = new Mesh();
-            _interLeftMesh.LoadFile("inter_l.obj");
+            _interLeftMesh.LoadFile("inter_l.obj", false, false, true);
             _interLeftMesh.LoadInGl(_shader);
 
             Intersection.Left_Mesh = _interLeftMesh;
 
             _interRightMesh = new Mesh();
-            _interRightMesh.LoadFile("inter_r.obj");
+            _interRightMesh.LoadFile("inter_r.obj", false, false, true);
             _interRightMesh.LoadInGl(_shader);
 
             Intersection.Right_Mesh = _interRightMesh;
 
             _interLeftRightMesh = new Mesh();
-            _interLeftRightMesh.LoadFile("inter_lr.obj");
+            _interLeftRightMesh.LoadFile("inter_lr.obj", false, false, true);
             _interLeftRightMesh.LoadInGl(_shader);
 
             Intersection.LeftRight_Mesh = _interLeftRightMesh;
@@ -142,22 +162,29 @@ namespace _42run
 
             if (KeyboardHelper.IsKeyPressed(Key.A))
                 cam = !cam;
-            _player.Update(e.Time);
-            _world.Update();
+            if (KeyboardHelper.IsKeyPressed(Key.Space))
+                pause = !pause;
+            if (!pause)
+            {
+                _player.Update(e.Time);
+                _scoreText.Str = $"Score: {(int)_player.Score}";
+                _world.Update();
+            }
         }
 
+        bool pause = false;
         bool cam = false;
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             _time += e.Time;
             Title = $"42run ; FPS: {1 / e.Time} ; v0.01";
-            var backColor = new Color4(0.0f, 0.0f, 0.0f, 1.0f);
+            var backColor = new Color4(0.0f, 0.4f, 0.0f, 1.0f);
             GL.ClearColor(backColor);
             GL.ClearDepth(1);
             GL.DepthFunc(DepthFunction.Less);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
+            
             var playerPosition = _player.PositionForCamera;
 
             _camera.Target = playerPosition + new Vector3(0, 2.5f, 0);
@@ -180,34 +207,50 @@ namespace _42run
                 model = _player.BoundingBox.CreateModelMatrix() * model;
                 viewModel = model * view;
                 _shader.SetUniformMatrix4("view", false, ref viewModel);
-                _player.BoundingBox.Draw();
+                //_player.BoundingBox.Draw();
 
                 var color = new Vector3(1, 1, 1);
 
                 foreach (var ground in _world.Grounds.ToArray())
                 {
-                    model = DirectionHelper.GetRotationFromDirection(ground.Direction) * Matrix4.CreateTranslation(ground.Position);
                     
-                    viewModel = model * view;
-                    color = new Vector3(0.8f, 0.8f, 0.8f);
-                    _shader.SetUniform3("col", ref color);
-                    _shader.SetUniformMatrix4("view", false, ref viewModel);
-                    ground.Mesh.Draw();
                     model = ground.BoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
                     viewModel = model * view;
                     color = new Vector3(0.7f, 0.7f, 0.7f);
                     _shader.SetUniform3("col", ref color);
                     _shader.SetUniformMatrix4("view", false, ref viewModel);
-                    ground.BoundingBox.Draw();
-                    if(ground.GetType() == typeof(Intersection))
+                    //ground.BoundingBox.Draw();
+                    if (ground.GetType() == typeof(Intersection))
                     {
                         var inter = (Intersection)ground;
+
+                        model = DirectionHelper.GetRotationFromDirection(inter.Direction) * Matrix4.CreateTranslation(inter.Position);
+                        viewModel = model * view;
+                        color = new Vector3(0.8f, 0.8f, 0.8f);
+                        _shader.SetUniform3("col", ref color);
+                        _shader.SetUniformMatrix4("view", false, ref viewModel);
+                        if (inter.Directions == 1)
+                            inter.Mesh.Draw(_interLeftTex);
+                        else if (inter.Directions == 2)
+                            inter.Mesh.Draw(_interRightTex);
+                        else
+                            inter.Mesh.Draw(_interLeftRightTex);
+
                         model = inter.ActivableBoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
                         viewModel = model * view;
                         color = new Vector3(0, 1, 0);
                         _shader.SetUniform3("col", ref color);
                         _shader.SetUniformMatrix4("view", false, ref viewModel);
-                        inter.ActivableBoundingBox.Draw();
+                        //inter.ActivableBoundingBox.Draw();
+                    }
+                    else
+                    {
+                        model = DirectionHelper.GetRotationFromDirection(ground.Direction) * Matrix4.CreateTranslation(ground.Position);
+                        viewModel = model * view;
+                        color = new Vector3(0.8f, 0.8f, 0.8f);
+                        _shader.SetUniform3("col", ref color);
+                        _shader.SetUniformMatrix4("view", false, ref viewModel);
+                        ground.Mesh.Draw(_wallTex);
                     }
                 }
 
@@ -234,7 +277,7 @@ namespace _42run
                     model = trigger.BoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(trigger.Position);
                     viewModel = model * view;
                     _shader.SetUniformMatrix4("view", false, ref viewModel);
-                    trigger.BoundingBox.Draw();
+                    //trigger.BoundingBox.Draw();
                 }
 
                 _shader.Unbind();
@@ -242,8 +285,7 @@ namespace _42run
 
             {
                 _3dSpriteShader.Bind();
-
-                GL.ActiveTexture(TextureUnit.Texture0);
+                
                 GL.BindTexture(TextureTarget.Texture2DArray, _playerSpriteSheet.Id);
 
                 _3dSpriteShader.SetUniformMatrix4("proj", false, ref _proj);
@@ -260,6 +302,31 @@ namespace _42run
                 GL.Disable(EnableCap.Blend);
 
                 _3dSpriteShader.Unbind();
+            }
+
+
+            {
+                GL.Disable(EnableCap.DepthTest);
+                GL.Enable(EnableCap.Blend);
+                //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                _flatColorShader.Bind();
+
+                //_guiFramebuffer.Bind();
+                _shader.SetUniformMatrix4("proj", false, ref _guiProj);
+                viewModel = Matrix4.CreateTranslation(new Vector3(_scoreText.Position + -new Vector2(Width / 2, Height / 2)));
+                _shader.SetUniformMatrix4("view", false, ref viewModel);
+
+                _scoreText.Draw();
+
+                //_guiFramebuffer.Unbind();
+
+                _flatColorShader.Unbind();
+
+
+
+
+                GL.Disable(EnableCap.Blend);
+                GL.Enable(EnableCap.DepthTest);
             }
 
             SwapBuffers();

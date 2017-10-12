@@ -43,7 +43,7 @@ namespace _42run.Gameplay
                 int toGenerate = _rand.Next(10) + 5;
                 List<Ground> generatedGrounds = new List<Ground>();
                 var dirVector = DirectionHelper.GetVectorFromDirection(direction);
-                var nextPosition = _intersection.Position + dirVector * 3f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
+                var nextPosition = _intersection.Position + dirVector * 5f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
                 for (int i = 0; i < toGenerate; i++)
                 {
                     generatedGrounds.Add(GroundFactory.NewGround(nextPosition, direction, out nextPosition));
@@ -67,7 +67,7 @@ namespace _42run.Gameplay
                 int toGenerate = _rand.Next(10) + 5;
                 List<Ground> generatedGrounds = new List<Ground>();
                 var dirVector = DirectionHelper.GetVectorFromDirection(direction);
-                var nextPosition = _intersection.Position + dirVector * 3f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
+                var nextPosition = _intersection.Position + dirVector * 5f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
                 for (int i = 0; i < toGenerate; i++)
                 {
                     generatedGrounds.Add(GroundFactory.NewGround(nextPosition, direction, out nextPosition));

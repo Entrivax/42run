@@ -66,9 +66,12 @@
     <Compile Include="Gameplay\Trigger.cs" />
     <Compile Include="Gameplay\World.cs" />
     <Compile Include="MainWindow.cs" />
+    <Compile Include="OpenGL\Font.cs" />
+    <Compile Include="OpenGL\Framebuffer.cs" />
     <Compile Include="OpenGL\Mesh.cs" />
     <Compile Include="OpenGL\ShaderManager.cs" />
     <Compile Include="OpenGL\SpriteSheet.cs" />
+    <Compile Include="OpenGL\Text.cs" />
     <Compile Include="OpenGL\Texture.cs" />
     <Compile Include="OpenGL\TextureManager.cs" />
     <Compile Include="OpenGL\Vertex.cs" />
@@ -97,6 +100,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Shaders\FlatColorShader.fs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\FlatColorShader.vs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Shaders\Shader.fs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

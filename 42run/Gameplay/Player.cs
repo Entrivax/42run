@@ -30,6 +30,8 @@ namespace _42run.Gameplay
         private const float _maxStepSize = 0.4f;
         public bool Dead = false;
         public Direction CurrentDirection = Direction.NORTH;
+        public float Score = 0f;
+        private const float _scoreIncrementation = 15f;
         
         public void Update(double time)
         {
@@ -37,6 +39,7 @@ namespace _42run.Gameplay
             {
                 return;
             }
+            Score += _scoreIncrementation * (float)time;
             if (KeyboardHelper.GetKeyboardState().IsKeyDown(OpenTK.Input.Key.Right))
             {
                 _sidewayMove -= _sidewaySpeed;

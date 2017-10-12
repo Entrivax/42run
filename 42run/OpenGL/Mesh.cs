@@ -20,7 +20,7 @@ namespace _42run.OpenGL
             _vbo.Dispose();
         }
 
-        public void LoadFile(string path)
+        public void LoadFile(string path, bool invertX, bool invertY, bool invertZ)
         {
             List<Vertex> vertices = new List<Vertex>();
             List<Vector3> points = new List<Vector3>();
@@ -35,15 +35,15 @@ namespace _42run.OpenGL
                     if (split.Length == 4 && split[0] == "v")
                     {
                         points.Add(new Vector3(
-                            float.Parse(split[1], CultureInfo.InvariantCulture),
-                            float.Parse(split[2], CultureInfo.InvariantCulture),
-                            float.Parse(split[3], CultureInfo.InvariantCulture)));
+                            float.Parse(split[1], CultureInfo.InvariantCulture) * (invertX ? -1 : 1),
+                            float.Parse(split[2], CultureInfo.InvariantCulture) * (invertY ? -1 : 1),
+                            float.Parse(split[3], CultureInfo.InvariantCulture) * (invertZ ? -1 : 1)));
                     }
-                    if (split.Length == 3 && split[0] == "vt")
+                    if ((split.Length == 3 || split.Length == 4) && split[0] == "vt")
                     {
                         uvs.Add(new Vector2(
                             float.Parse(split[1], CultureInfo.InvariantCulture),
-                            float.Parse(split[2], CultureInfo.InvariantCulture)));
+                            1 - float.Parse(split[2], CultureInfo.InvariantCulture)));
                     }
                     if (split.Length == 4 && split[0] == "f")
                     {

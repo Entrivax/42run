@@ -173,13 +173,13 @@ namespace _42run
         }
 
         bool pause = false;
-        bool cam = false;
+        bool cam = true;
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             _time += e.Time;
-            Title = $"42run ; FPS: {1 / e.Time} ; v0.01";
-            var backColor = new Color4(0.0f, 0.4f, 0.0f, 1.0f);
+            Title = $"42run ; FPS: {Math.Round(1 / e.Time)} ; v0.01";
+            var backColor = new Color4(0.0f, 0.0f, 0.0f, 1.0f);
             GL.ClearColor(backColor);
             GL.ClearDepth(1);
             GL.DepthFunc(DepthFunction.Less);

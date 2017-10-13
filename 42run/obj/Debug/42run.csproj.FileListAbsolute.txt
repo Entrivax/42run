@@ -31,3 +31,5 @@ j:\User\documents\visual studio 2017\Projects\42run\42run\bin\Debug\Shaders\Flat
 j:\User\documents\visual studio 2017\Projects\42run\42run\bin\Debug\Shaders\FlatColorShader.vs
 j:\User\documents\visual studio 2017\Projects\42run\42run\bin\Debug\Shaders\SpriteSheet.fs
 j:\User\documents\visual studio 2017\Projects\42run\42run\bin\Debug\Shaders\SpriteSheet.vs
+J:\User\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Newtonsoft.Json.dll
+J:\User\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Newtonsoft.Json.xml

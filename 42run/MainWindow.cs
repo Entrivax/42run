@@ -31,13 +31,25 @@ namespace _42run
         {
             Closed += OnClosed;
             CursorVisible = true;
+            KeyPress += OnKeyPress;
+            KeyDown += OnKeyDown;
             SetInstanceGameState(new GameStatePlay());
             base.OnLoad(e);
         }
 
+        private void OnKeyDown(object sender, KeyboardKeyEventArgs e)
+        {
+            _gameState?.OnKeyDown(e.Key);
+        }
+
+        private void OnKeyPress(object sender, KeyPressEventArgs e)
+        {
+            _gameState?.OnKeyPress(e.KeyChar);
+        }
+
         protected override void OnUnload(EventArgs e)
         {
-            _gameState.Dispose();
+            _gameState?.Dispose();
             _gameState = null;
             base.OnUnload(e);
         }

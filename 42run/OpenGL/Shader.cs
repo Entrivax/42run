@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace _42run.OpenGL
@@ -9,8 +10,13 @@ namespace _42run.OpenGL
     {
         public int ProgramId { get; private set; }
 
+        private Dictionary<string, int> _uniformLocations;
+        private Dictionary<string, int> _attribLocations;
+
         public Shader(string vertShader, string fragShader)
         {
+            _uniformLocations = new Dictionary<string, int>();
+            _attribLocations = new Dictionary<string, int>();
             var vertexShader = CompileShader(ShaderType.VertexShader, vertShader);
             var fragmentShader = CompileShader(ShaderType.FragmentShader, fragShader);
 
@@ -48,6 +54,24 @@ namespace _42run.OpenGL
             return shader;
         }
 
+        public int GetAttribLocation(string attrib)
+        {
+            if (_attribLocations.ContainsKey(attrib))
+                return _attribLocations[attrib];
+            var location = GL.GetAttribLocation(ProgramId, attrib);
+            _attribLocations.Add(attrib, location);
+            return location;
+        }
+
+        public int GetUniformLocation(string uniform)
+        {
+            if (_uniformLocations.ContainsKey(uniform))
+                return _uniformLocations[uniform];
+            var location = GL.GetUniformLocation(ProgramId, uniform);
+            _uniformLocations.Add(uniform, location);
+            return location;
+        }
+
         public void Dispose()
         {
             GL.DeleteProgram(ProgramId);
@@ -55,67 +79,67 @@ namespace _42run.OpenGL
 
         public void SetVertexAttrib1(string attrib, double value)
         {
-            var location = GL.GetAttribLocation(ProgramId, attrib);
+            var location = GetAttribLocation(attrib);
             GL.VertexAttrib1(location, value);
         }
 
         public void SetVertexAttrib1(string attrib, float value)
         {
-            var location = GL.GetAttribLocation(ProgramId, attrib);
+            var location = GetAttribLocation(attrib);
             GL.VertexAttrib1(location, value);
         }
 
         public void SetVertexAttrib1(string attrib, short value)
         {
-            var location = GL.GetAttribLocation(ProgramId, attrib);
+            var location = GetAttribLocation(attrib);
             GL.VertexAttrib1(location, value);
         }
 
         public void SetVertexAttrib2(string attrib, Vector2 value)
         {
-            var location = GL.GetAttribLocation(ProgramId, attrib);
+            var location = GetAttribLocation(attrib);
             GL.VertexAttrib2(location, value);
         }
 
         public void SetVertexAttrib3(string attrib, Vector3 value)
         {
-            var location = GL.GetAttribLocation(ProgramId, attrib);
+            var location = GetAttribLocation(attrib);
             GL.VertexAttrib3(location, value);
         }
 
         public void SetVertexAttrib4(string attrib, Vector4 value)
         {
-            var location = GL.GetAttribLocation(ProgramId, attrib);
+            var location = GetAttribLocation(attrib);
             GL.VertexAttrib4(location, value);
         }
 
         public void SetUniform1(string attrib, double value)
         {
-            var location = GL.GetUniformLocation(ProgramId, attrib);
+            var location = GetUniformLocation(attrib);
             GL.Uniform1(location, value);
         }
 
         public void SetUniform2(string attrib, ref Vector2 value)
         {
-            var location = GL.GetUniformLocation(ProgramId, attrib);
+            var location = GetUniformLocation(attrib);
             GL.Uniform2(location, ref value);
         }
 
         public void SetUniform3(string attrib, ref Vector3 value)
         {
-            var location = GL.GetUniformLocation(ProgramId, attrib);
+            var location = GetUniformLocation(attrib);
             GL.Uniform3(location, ref value);
         }
 
         public void SetUniform3(string attrib, ref Vector4 value)
         {
-            var location = GL.GetUniformLocation(ProgramId, attrib);
+            var location = GetUniformLocation(attrib);
             GL.Uniform4(location, ref value);
         }
 
         public void SetUniformMatrix4(string attrib, bool transpose, ref Matrix4 value)
         {
-            var location = GL.GetUniformLocation(ProgramId, attrib);
+            var location = GetUniformLocation(attrib);
             GL.UniformMatrix4(location, transpose, ref value);
         }
 

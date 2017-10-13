@@ -5,10 +5,6 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _42run.GameStates
 {
@@ -62,7 +58,7 @@ namespace _42run.GameStates
             // FONT RETRIEVING ************************************************************** //
             _font = FontManager.Get("glyphs");
             // TEXT INITIALISATION ********************************************************** //
-            _scoreText = new Text(new Vector2(10, 10), _font, _flatColorShader, "Test");
+            _scoreText = new Text(new Vector2(20, 0), _font, _flatColorShader, "Test");
 
             // TEXTURES INITIALISATION ****************************************************** //
             _interLeftTex = new Texture("inter_l.png");
@@ -153,6 +149,10 @@ namespace _42run.GameStates
             if (!_pause)
             {
                 _player.Update(deltaTime);
+
+                if (_player.Dead)
+                    MainWindow.SetGameState(new GameStateGameOver((int)_player.Score));
+
                 _scoreText.Str = $"Score: {(int)_player.Score}";
                 _world.Update();
 
@@ -295,9 +295,9 @@ namespace _42run.GameStates
                 _flatColorShader.Bind();
 
                 //_guiFramebuffer.Bind();
-                _baseShader.SetUniformMatrix4("proj", false, ref _guiProj);
+                _flatColorShader.SetUniformMatrix4("proj", false, ref _guiProj);
                 viewModel = Matrix4.CreateTranslation(new Vector3(_scoreText.Position + -new Vector2(_width / 2, _height / 2)));
-                _baseShader.SetUniformMatrix4("view", false, ref viewModel);
+                _flatColorShader.SetUniformMatrix4("view", false, ref viewModel);
 
                 _scoreText.Draw();
 
@@ -347,9 +347,8 @@ namespace _42run.GameStates
             _wallTex = null;
         }
 
-        ~GameStatePlay()
-        {
-            Dispose();
-        }
+        public void OnKeyPress(char key) { }
+
+        public void OnKeyDown(Key key) { }
     }
 }

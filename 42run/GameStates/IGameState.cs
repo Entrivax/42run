@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Input;
+using System;
 
 namespace _42run.GameStates
 {
@@ -6,6 +7,9 @@ namespace _42run.GameStates
     {
         void Update(double deltaTime);
         void Draw(double deltaTime);
+
+        void OnKeyPress(char key);
+        void OnKeyDown(Key key);
 
         void Resize(int width, int height);
     }

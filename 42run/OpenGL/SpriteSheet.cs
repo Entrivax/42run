@@ -1,10 +1,11 @@
 ﻿using OpenTK.Graphics.OpenGL4;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace _42run.OpenGL
 {
-    public class SpriteSheet
+    public class SpriteSheet : IDisposable
     {
         public int Id { get; private set; } = -1;
 
@@ -37,6 +38,12 @@ namespace _42run.OpenGL
                                  imageData.Scan0 + (spriteWidth * 4 * (i % columnsCount)) + (image.Width * 4 * spriteHeight * (i / columnsCount)));
             }
             image.UnlockBits(imageData);
+        }
+
+        public void Dispose()
+        {
+            if (Id != -1)
+                GL.DeleteTexture(Id);
         }
     }
 }

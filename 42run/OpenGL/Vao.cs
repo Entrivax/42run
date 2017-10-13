@@ -5,7 +5,7 @@ namespace _42run.OpenGL
 {
     public class Vao<T> : IDisposable where T : struct
     {
-        public int Array { get; private set; }
+        public int Array { get; private set; } = -1;
 
         public Vao()
         {

@@ -11,11 +11,14 @@ namespace _42run.OpenGL
     {
         public Vertex[] Vertices;
 
+        private int VerticesCount = -1;
         private Vao<Vertex> _vao;
         private Vbo _vbo;
 
         public void Dispose()
         {
+            ClearVertices();
+            VerticesCount = 0;
             _vao.Dispose();
             _vbo.Dispose();
         }
@@ -69,7 +72,9 @@ namespace _42run.OpenGL
             _vbo.Bind();
             _vbo.SetData(Vertices);
             _vbo.Unbind();
-            
+
+            VerticesCount = Vertices.Length;
+
             _vao = new Vao<Vertex>();
             _vao.BindVbo(_vbo, shader, new[] {
                 new VertexAttribute("_pos", 3, VertexAttribPointerType.Float, Vector2.SizeInBytes + Vector3.SizeInBytes, 0),
@@ -77,11 +82,16 @@ namespace _42run.OpenGL
             });
         }
 
+        public void ClearVertices()
+        {
+            Vertices = null;
+        }
+
         public void Draw()
         {
             _vao.Bind();
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, VerticesCount);
         }
 
         public void Draw(Texture texture)
@@ -89,7 +99,7 @@ namespace _42run.OpenGL
             TextureManager.Use(texture);
             _vao.Bind();
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, VerticesCount);
             TextureManager.Disable();
         }
 
@@ -97,7 +107,7 @@ namespace _42run.OpenGL
         {
             _vao.Bind();
             GL.PolygonMode(MaterialFace.FrontAndBack, mode);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, Vertices.Length);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, VerticesCount);
         }
     }
 }

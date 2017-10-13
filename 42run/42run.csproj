@@ -65,8 +65,11 @@
     <Compile Include="Gameplay\TerrainRemover.cs" />
     <Compile Include="Gameplay\Trigger.cs" />
     <Compile Include="Gameplay\World.cs" />
+    <Compile Include="GameStates\GameStatePlay.cs" />
+    <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="OpenGL\Font.cs" />
+    <Compile Include="OpenGL\FontManager.cs" />
     <Compile Include="OpenGL\Framebuffer.cs" />
     <Compile Include="OpenGL\Mesh.cs" />
     <Compile Include="OpenGL\ShaderManager.cs" />

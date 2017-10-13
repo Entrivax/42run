@@ -24,8 +24,8 @@ namespace _42run.OpenGL
 
         public void Dispose()
         {
-            _vao.Dispose();
-            _vbo.Dispose();
+            _vao?.Dispose();
+            _vbo?.Dispose();
         }
 
         private string _str;
@@ -59,11 +59,11 @@ namespace _42run.OpenGL
 
                 prevX += Font.CharWidth;
             }
-
-            if (_vao != null)
-                _vao.Dispose();
-            if (_vbo != null)
-                _vbo.Dispose();
+            
+            _vao?.Dispose();
+            _vao = null;
+            _vbo?.Dispose();
+            _vbo = null;
 
             _vbo = new Vbo();
             _vbo.Bind();

@@ -164,6 +164,15 @@ namespace _42run
                 _player.Update(e.Time);
                 _scoreText.Str = $"Score: {(int)_player.Score}";
                 _world.Update();
+
+                var playerPosition = _player.PositionForCamera;
+
+                _camera.Target = playerPosition + new Vector3(0, 2.5f, 0);
+                if (cam)
+                    _camera.UpdateCameraPosition(playerPosition + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f) + new Vector3(0, 3, 0), (float)e.Time, 5f);
+                // DEBUG CAM
+                else
+                    _camera.Position = new Vector3(playerPosition.X, 10, playerPosition.Z) + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f);
             }
         }
 
@@ -180,14 +189,6 @@ namespace _42run
             GL.DepthFunc(DepthFunction.Less);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             
-            var playerPosition = _player.PositionForCamera;
-
-            _camera.Target = playerPosition + new Vector3(0, 2.5f, 0);
-            if (cam)
-                _camera.UpdateCameraPosition(playerPosition + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f) + new Vector3(0, 3, 0), (float)e.Time, 5f);
-            // DEBUG CAM
-            else
-                _camera.Position = new Vector3(playerPosition.X, 10, playerPosition.Z) + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f);
             var view = _camera.ComputeViewMatrix();
             var model = Matrix4.CreateTranslation(_player.GetPosition());
 

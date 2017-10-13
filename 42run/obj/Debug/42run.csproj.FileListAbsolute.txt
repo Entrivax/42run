@@ -27,3 +27,7 @@ C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Debug\42
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\obj\Debug\42run.csprojResolveAssemblyReference.cache
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Shaders\FlatColorShader.fs
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Shaders\FlatColorShader.vs
+j:\User\documents\visual studio 2017\Projects\42run\42run\bin\Debug\Shaders\FlatColorShader.fs
+j:\User\documents\visual studio 2017\Projects\42run\42run\bin\Debug\Shaders\FlatColorShader.vs
+j:\User\documents\visual studio 2017\Projects\42run\42run\bin\Debug\Shaders\SpriteSheet.fs
+j:\User\documents\visual studio 2017\Projects\42run\42run\bin\Debug\Shaders\SpriteSheet.vs

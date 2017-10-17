@@ -24,7 +24,7 @@ namespace _42run.OpenGL
 
         public void Set(Shader program)
         {
-            int index = GL.GetAttribLocation(program.ProgramId, _name);
+            int index = program.GetAttribLocation(_name);
             
             GL.EnableVertexAttribArray(index);
             GL.VertexAttribPointer(index, _size, _type, _normalize, _stride, _offset);

@@ -76,7 +76,9 @@
     <Compile Include="OpenGL\Font.cs" />
     <Compile Include="OpenGL\FontManager.cs" />
     <Compile Include="OpenGL\Framebuffer.cs" />
+    <Compile Include="OpenGL\Material.cs" />
     <Compile Include="OpenGL\Mesh.cs" />
+    <Compile Include="OpenGL\Object3D.cs" />
     <Compile Include="OpenGL\ShaderManager.cs" />
     <Compile Include="OpenGL\SpriteSheet.cs" />
     <Compile Include="OpenGL\Text.cs" />

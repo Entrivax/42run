@@ -156,6 +156,7 @@ namespace _42run.GameStates
             {
                 WebClient client = new WebClient();
                 var score = new ScoreObject { Name = _name, Score = _finalScore };
+                client.Headers[HttpRequestHeader.ContentType] = "application/json";
                 client.UploadString("https://entrivax.fr/42run/scores", "POST", JsonConvert.SerializeObject(score));
             }
             catch (Exception exception)

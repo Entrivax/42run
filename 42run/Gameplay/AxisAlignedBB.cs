@@ -8,7 +8,7 @@ namespace _42run.Gameplay
         public Vector3 Min { get; set; }
         public Vector3 Max { get; set; }
 
-        private static Mesh _mesh;
+        private static Object3D _mesh;
 
         public AxisAlignedBB(Vector3 min, Vector3 max)
         {
@@ -40,7 +40,7 @@ namespace _42run.Gameplay
             return other.Max.Z > Min.Z && other.Min.Z < Max.Z;
         }
 
-        public static void SetMesh(Mesh mesh)
+        public static void SetMesh(Object3D mesh)
         {
             _mesh = mesh;
         }
@@ -52,7 +52,7 @@ namespace _42run.Gameplay
 
         public void Draw()
         {
-            _mesh.Draw(OpenTK.Graphics.OpenGL4.PolygonMode.Line);
+            _mesh.Meshs[0].Draw(OpenTK.Graphics.OpenGL4.PolygonMode.Line);
         }
     }
 }

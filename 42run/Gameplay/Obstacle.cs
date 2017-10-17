@@ -5,11 +5,11 @@ namespace _42run.Gameplay
 {
     public class Obstacle
     {
-        public Mesh Mesh { get; set; }
+        public Object3D Mesh { get; set; }
         public AxisAlignedBB BoundingBox { get; set; }
         public Vector3 Position { get; set; }
 
-        public Obstacle(Mesh mesh, AxisAlignedBB boundingBox, Vector3 position)
+        public Obstacle(Object3D mesh, AxisAlignedBB boundingBox, Vector3 position)
         {
             Mesh = mesh;
             BoundingBox = boundingBox;

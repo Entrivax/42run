@@ -5,7 +5,7 @@ namespace _42run.Gameplay
 {
     public class GroundSimple : Ground
     {
-        public static Mesh MeshToUse;
+        public static Object3D MeshToUse;
 
         public GroundSimple(Direction direction)
         {

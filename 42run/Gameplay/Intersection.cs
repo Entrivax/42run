@@ -13,9 +13,9 @@ namespace _42run.Gameplay
 
         public int Directions { get { return _directions; } set { _directions = value; if (_directions == (int)IntersectionDirection.LEFT) Mesh = Right_Mesh; else if (_directions == (int)IntersectionDirection.RIGHT) Mesh = Left_Mesh; else if (_directions == ((int)IntersectionDirection.LEFT | (int)IntersectionDirection.RIGHT)) Mesh = LeftRight_Mesh; } }
 
-        public static Mesh Left_Mesh { get; set; }
-        public static Mesh Right_Mesh { get; set; }
-        public static Mesh LeftRight_Mesh { get; set; }
+        public static Object3D Left_Mesh { get; set; }
+        public static Object3D Right_Mesh { get; set; }
+        public static Object3D LeftRight_Mesh { get; set; }
 
         public bool Used { get; set; } = false;
 

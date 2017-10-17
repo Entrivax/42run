@@ -5,7 +5,7 @@ namespace _42run.Gameplay
 {
     public class Ground
     {
-        public Mesh Mesh;
+        public Object3D Mesh;
         public AxisAlignedBB BoundingBox;
         public Vector3 Position;
         public float Length;

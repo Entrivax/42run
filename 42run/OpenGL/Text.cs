@@ -60,7 +60,7 @@ namespace _42run.OpenGL
             {
                 var prevX = 0f;
                 var leftPadding = TextAlignment == Alignment.LEFT ? 0 : (TextAlignment == Alignment.RIGHT ? -Font.GetStringWidth(split[i]) : -Font.GetStringWidth(split[i]) / 2);
-                prevY += Font.Texture.Height;
+                prevY -= Font.Texture.Height;
                 foreach (var c in split[i])
                 {
                     var u = Font.GetUFor(c);

@@ -5,7 +5,6 @@ namespace _42run.Gameplay
 {
     public static class GroundFactory
     {
-
         public static Ground NewGround(Vector3 position, Direction direction, out Vector3 next)
         {
             var ground = new GroundSimple(direction) { Position = position };

@@ -5,6 +5,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using System;
+using System.Collections.Generic;
 
 namespace _42run.GameStates
 {
@@ -28,12 +29,12 @@ namespace _42run.GameStates
         private Texture _interLeftRightTex;
         private Texture _wallTex;
 
-        private Mesh _groundMesh;
-        private Mesh _cubeMesh;
-        private Mesh _interLeftMesh;
-        private Mesh _interRightMesh;
-        private Mesh _interLeftRightMesh;
-        private Mesh _playerMesh;
+        private Object3D _groundMesh;
+        private Object3D _cubeMesh;
+        private Object3D _interLeftMesh;
+        private Object3D _interRightMesh;
+        private Object3D _interLeftRightMesh;
+        private Object3D _playerMesh;
 
         private Matrix4 _proj;
         private Matrix4 _guiProj;
@@ -58,55 +59,45 @@ namespace _42run.GameStates
             // FONT RETRIEVING ************************************************************** //
             _font = FontManager.Get("glyphs");
             // TEXT INITIALISATION ********************************************************** //
-            _scoreText = new Text(new Vector2(20, 0), _font, _flatColorShader, "Test");
+            _scoreText = new Text(new Vector2(13, 30), _font, _flatColorShader, "Test");
 
             // TEXTURES INITIALISATION ****************************************************** //
-            _interLeftTex = new Texture("inter_l.png");
+            /*_interLeftTex = new Texture("inter_l.png");
             _interRightTex = new Texture("inter_r.png");
             _interLeftRightTex = new Texture("inter_lr.png");
-            _wallTex = new Texture("wall.png");
+            _wallTex = new Texture("wall.png");*/
             _playerSpriteSheet = new SpriteSheet("running_link.png", 24, 32);
 
             // MESH INITIALISATION ********************************************************** //
-            _groundMesh = new Mesh();
-            _groundMesh.LoadFile("wall.obj", false, false, true);
+            _groundMesh = new Object3D("wall.obj", false, false, true);
             _groundMesh.LoadInGl(_baseShader);
-            _groundMesh.ClearVertices();
 
             GroundSimple.MeshToUse = _groundMesh;
 
-            _cubeMesh = new Mesh();
-            _cubeMesh.LoadFile("cube.obj", false, false, false);
+            _cubeMesh = new Object3D("cube.obj", false, false, false);
             _cubeMesh.LoadInGl(_baseShader);
-            _cubeMesh.ClearVertices();
 
             AxisAlignedBB.SetMesh(_cubeMesh);
 
-            _interLeftMesh = new Mesh();
-            _interLeftMesh.LoadFile("inter_l.obj", false, false, true);
+            _interLeftMesh = new Object3D("inter_l.obj", false, false, true);
             _interLeftMesh.LoadInGl(_baseShader);
-            _interLeftMesh.ClearVertices();
 
             Intersection.Left_Mesh = _interLeftMesh;
 
-            _interRightMesh = new Mesh();
-            _interRightMesh.LoadFile("inter_r.obj", false, false, true);
+            _interRightMesh = new Object3D("inter_r.obj", false, false, true);
             _interRightMesh.LoadInGl(_baseShader);
-            _interRightMesh.ClearVertices();
 
             Intersection.Right_Mesh = _interRightMesh;
 
-            _interLeftRightMesh = new Mesh();
-            _interLeftRightMesh.LoadFile("inter_lr.obj", false, false, true);
+            _interLeftRightMesh = new Object3D("inter_lr.obj", false, false, true);
             _interLeftRightMesh.LoadInGl(_baseShader);
-            _interLeftRightMesh.ClearVertices();
 
             Intersection.LeftRight_Mesh = _interLeftRightMesh;
 
             var x = ((24 / 32f) * 1.7f) / 2;
-            _playerMesh = new Mesh
+            _playerMesh = new Object3D(new[] {new Mesh
             {
-                Vertices = new Vertex[]
+                Vertices = new List<Vertex>
                 {
                     new Vertex(new Vector3(-x, 1.7f, 0f), new Vector2(0, 0)),
                     new Vertex(new Vector3(-x, 0f, 0f), new Vector2(0, 1)),
@@ -116,9 +107,8 @@ namespace _42run.GameStates
                     new Vertex(new Vector3(-x, 0f, 0f), new Vector2(0, 1)),
                     new Vertex(new Vector3(x, 0f, 0f), new Vector2(1, 1)),
                 }
-            };
+            }});
             _playerMesh.LoadInGl(_3dSpriteShader);
-            _playerMesh.ClearVertices();
 
             // WORLD INITIALISATION ********************************************************* //
             _world = new World();
@@ -213,11 +203,11 @@ namespace _42run.GameStates
                         _baseShader.SetUniform3("col", ref color);
                         _baseShader.SetUniformMatrix4("view", false, ref viewModel);
                         if (inter.Directions == 1)
-                            inter.Mesh.Draw(_interLeftTex);
+                            inter.Mesh.Draw();
                         else if (inter.Directions == 2)
-                            inter.Mesh.Draw(_interRightTex);
+                            inter.Mesh.Draw();
                         else
-                            inter.Mesh.Draw(_interLeftRightTex);
+                            inter.Mesh.Draw();
 
                         model = inter.ActivableBoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
                         viewModel = model * view;
@@ -234,7 +224,7 @@ namespace _42run.GameStates
                         color = new Vector3(0.8f, 0.8f, 0.8f);
                         _baseShader.SetUniform3("col", ref color);
                         _baseShader.SetUniformMatrix4("view", false, ref viewModel);
-                        ground.Mesh.Draw(_wallTex);
+                        ground.Mesh.Draw();
                     }
                 }
 

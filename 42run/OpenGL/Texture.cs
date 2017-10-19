@@ -32,12 +32,11 @@ namespace _42run.OpenGL
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public Texture(string file) : this(new Bitmap(file), true) { }
+        public Texture(string file, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear) : this(new Bitmap(file), true, minFilter, magFilter) { }
 
-        public Texture(Bitmap bitmap, bool disposeBitmap = false)
+        public Texture(Bitmap bitmap, bool disposeBitmap = false, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
         {
-            int texId;
-            GL.GenTextures(1, out texId);
+            GL.GenTextures(1, out int texId);
             Id = texId;
             GL.BindTexture(TextureTarget.Texture2D, Id);
 
@@ -53,8 +52,8 @@ namespace _42run.OpenGL
             if (disposeBitmap)
                 bitmap.Dispose();
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)minFilter);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)magFilter);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
 

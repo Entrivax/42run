@@ -60,7 +60,7 @@ namespace _42run.OpenGL
         public void Draw()
         {
             if (Material?.Texture != null)
-                Draw(Material?.Texture);
+                Draw(Material.Texture);
             else
             {
                 _vao.Bind();

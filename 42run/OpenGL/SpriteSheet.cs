@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -7,43 +8,35 @@ namespace _42run.OpenGL
 {
     public class SpriteSheet : IDisposable
     {
-        public int Id { get; private set; } = -1;
+        public Shader Shader { get; private set; }
+        public Texture Texture { get; private set; }
+        public Object3D Mesh { get; private set; }
 
-        public SpriteSheet(string path, int spriteWidth, int spriteHeight)
+        private int _spriteWidth;
+        private int _spriteHeight;
+        private Vector2 _uv;
+
+        public SpriteSheet(Object3D mesh, string path, int spriteWidth, int spriteHeight, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
         {
-            Id = GL.GenTexture();
+            Mesh = mesh;
+            Shader = ShaderManager.Get("SpriteSheet");
+            Texture = TextureManager.Get(path, minFilter, magFilter);
+            _spriteWidth = spriteWidth;
+            _spriteHeight = spriteHeight;
+            _uv = new Vector2((float)_spriteWidth / Texture.Width, (float)_spriteHeight / Texture.Height);
+        }
 
-            GL.BindTexture(TextureTarget.Texture2DArray, Id);
-
-            GL.TexParameter(TextureTarget.Texture2DArray, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2DArray, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2DArray, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2DArray, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
-
-            Bitmap image = new Bitmap(path);
-            BitmapData imageData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            int columnsCount = image.Width / spriteWidth;
-            int rowsCount = image.Height / spriteHeight;
-
-            GL.TexStorage3D(TextureTarget3d.Texture2DArray, 1, SizedInternalFormat.Rgba8, spriteWidth, spriteHeight, columnsCount * rowsCount);
-
-            GL.PixelStore(PixelStoreParameter.UnpackRowLength, image.Width);
-
-            for (int i = 0; i < columnsCount * rowsCount; i++)
-            {
-                GL.TexSubImage3D(TextureTarget.Texture2DArray,
-                                 0, 0, 0, i, spriteWidth, spriteHeight, 1,
-                                 OpenTK.Graphics.OpenGL4.PixelFormat.Bgra, PixelType.UnsignedByte,
-                                 imageData.Scan0 + (spriteWidth * 4 * (i % columnsCount)) + (image.Width * 4 * spriteHeight * (i / columnsCount)));
-            }
-            image.UnlockBits(imageData);
+        public void Draw(int xSprite, int ySprite)
+        {
+            var uv = new Vector2(_uv.X * xSprite, _uv.Y * ySprite);
+            Shader.SetUniform2("sprite", ref uv);
+            TextureManager.Use(Texture);
+            Mesh.Draw();
         }
 
         public void Dispose()
         {
-            if (Id != -1)
-                GL.DeleteTexture(Id);
+            
         }
     }
 }

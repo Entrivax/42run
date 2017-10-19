@@ -26,7 +26,8 @@ namespace _42run.OpenGL
             List<Vector2> uvs = new List<Vector2>();
             List<Mesh> meshs = new List<Mesh>();
             Dictionary<string, Material> materials = new Dictionary<string, Material>();
-
+            var mesh = new Mesh();
+            Meshs = new[] { mesh };
             using (var reader = File.OpenText(path))
             {
                 var line = "";
@@ -50,11 +51,14 @@ namespace _42run.OpenGL
                     }
                     if (split.Length == 4 && split[0] == "f")
                     {
-                        if (currentMesh == null)
+                        /*if (currentMesh == null)
                         {
-                            currentMesh = new Mesh();
+                            currentMesh = new Mesh
+                            {
+                                Material = currentMaterial
+                            };
                             meshs.Add(currentMesh);
-                        }
+                        }*/
                         var vert1 = split[1].Split(new[] { '/' }, StringSplitOptions.None);
                         var vert2 = split[2].Split(new[] { '/' }, StringSplitOptions.None);
                         var vert3 = split[3].Split(new[] { '/' }, StringSplitOptions.None);
@@ -78,7 +82,7 @@ namespace _42run.OpenGL
                     {
                         currentMaterial = materials[split[1]];
                         if (currentMesh != null)
-                            currentMesh.Material = currentMaterial;
+                            currentMesh.Material = materials[split[1]];
                     }
                     if (split.Length == 2 && split[0] == "mtllib")
                     {

@@ -1,11 +1,12 @@
 ﻿#version 400
 
-in vec3 texCoord;
+in vec2 texCoord;
 out vec4 outColor;
 
-uniform sampler2DArray tex;
+uniform sampler2D tex;
+uniform vec2 sprite;
 
 void main()
 {
-    outColor = texture(tex, vec3(texCoord));
+    outColor = texture(tex, vec2(texCoord) + sprite);
 }

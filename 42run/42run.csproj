@@ -59,6 +59,7 @@
     <Compile Include="Gameplay\Camera.cs" />
     <Compile Include="Gameplay\Direction.cs" />
     <Compile Include="Gameplay\Ground.cs" />
+    <Compile Include="Gameplay\GroundCluster.cs" />
     <Compile Include="Gameplay\GroundFactory.cs" />
     <Compile Include="Gameplay\GroundSimple.cs" />
     <Compile Include="Gameplay\Intersection.cs" />

@@ -30,6 +30,7 @@ namespace _42run.GameStates
         private Texture _wallTex;
 
         private Object3D _groundMesh;
+        private Object3D _groundClusterMesh;
         private Object3D _cubeMesh;
         private Object3D _interLeftMesh;
         private Object3D _interRightMesh;
@@ -60,19 +61,40 @@ namespace _42run.GameStates
             _font = FontManager.Get("glyphs");
             // TEXT INITIALISATION ********************************************************** //
             _scoreText = new Text(new Vector2(13, 30), _font, _flatColorShader, "Test");
+            
+            var x = ((24 / 32f) * 1.7f) / 2;
+            var u = 24.0f / 240;
+            _playerMesh = new Object3D(new[] {new Mesh
+            {
+                Vertices = new List<Vertex>
+                {
+                    new Vertex(new Vector3(-x, 1.7f, 0f), new Vector2(0, 0)),
+                    new Vertex(new Vector3(-x, 0f, 0f), new Vector2(0, 1)),
+                    new Vertex(new Vector3(x, 1.7f, 0f), new Vector2(u, 0)),
 
+                    new Vertex(new Vector3(x, 1.7f, 0f), new Vector2(u, 0)),
+                    new Vertex(new Vector3(-x, 0f, 0f), new Vector2(0, 1)),
+                    new Vertex(new Vector3(x, 0f, 0f), new Vector2(u, 1)),
+                }
+            }});
+            _playerMesh.LoadInGl(_3dSpriteShader);
             // TEXTURES INITIALISATION ****************************************************** //
             /*_interLeftTex = new Texture("inter_l.png");
             _interRightTex = new Texture("inter_r.png");
-            _interLeftRightTex = new Texture("inter_lr.png");
-            _wallTex = new Texture("wall.png");*/
-            _playerSpriteSheet = new SpriteSheet("running_link.png", 24, 32);
+            _interLeftRightTex = new Texture("inter_lr.png");*/
+            //_wallTex = TextureManager.Get("wall.png");
+            _playerSpriteSheet = new SpriteSheet(_playerMesh, "running_link.png", 24, 32, TextureMinFilter.Nearest, TextureMagFilter.Nearest);
 
             // MESH INITIALISATION ********************************************************** //
             _groundMesh = new Object3D("wall.obj", false, false, true);
             _groundMesh.LoadInGl(_baseShader);
 
             GroundSimple.MeshToUse = _groundMesh;
+
+            _groundClusterMesh = new Object3D("cluster.obj", false, false, true);
+            _groundClusterMesh.LoadInGl(_baseShader);
+
+            GroundCluster.MeshToUse = _groundClusterMesh;
 
             _cubeMesh = new Object3D("cube.obj", false, false, false);
             _cubeMesh.LoadInGl(_baseShader);
@@ -94,21 +116,6 @@ namespace _42run.GameStates
 
             Intersection.LeftRight_Mesh = _interLeftRightMesh;
 
-            var x = ((24 / 32f) * 1.7f) / 2;
-            _playerMesh = new Object3D(new[] {new Mesh
-            {
-                Vertices = new List<Vertex>
-                {
-                    new Vertex(new Vector3(-x, 1.7f, 0f), new Vector2(0, 0)),
-                    new Vertex(new Vector3(-x, 0f, 0f), new Vector2(0, 1)),
-                    new Vertex(new Vector3(x, 1.7f, 0f), new Vector2(1, 0)),
-
-                    new Vertex(new Vector3(x, 1.7f, 0f), new Vector2(1, 0)),
-                    new Vertex(new Vector3(-x, 0f, 0f), new Vector2(0, 1)),
-                    new Vertex(new Vector3(x, 0f, 0f), new Vector2(1, 1)),
-                }
-            }});
-            _playerMesh.LoadInGl(_3dSpriteShader);
 
             // WORLD INITIALISATION ********************************************************* //
             _world = new World();
@@ -260,18 +267,15 @@ namespace _42run.GameStates
             {
                 _3dSpriteShader.Bind();
 
-                GL.BindTexture(TextureTarget.Texture2DArray, _playerSpriteSheet.Id);
-
                 _3dSpriteShader.SetUniformMatrix4("proj", false, ref _proj);
                 model = DirectionHelper.GetRotationFromDirection(_player.CurrentDirection) * Matrix4.CreateTranslation(_player.GetPosition());
                 viewModel = model * view;
                 _3dSpriteShader.SetUniformMatrix4("view", false, ref viewModel);
-                _3dSpriteShader.SetUniform1("texNum", ((int)(_time * 10)) % 10);
 
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-                _playerMesh.Draw();
+                _playerSpriteSheet.Draw(((int)(_time * 10)) % 10, 0);
 
                 GL.Disable(EnableCap.Blend);
 
@@ -281,7 +285,7 @@ namespace _42run.GameStates
             {
                 GL.Disable(EnableCap.DepthTest);
                 GL.Enable(EnableCap.Blend);
-                //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 _flatColorShader.Bind();
 
                 //_guiFramebuffer.Bind();

@@ -7,13 +7,13 @@ namespace _42run.OpenGL
     {
         private static Dictionary<string, Texture> _textures = new Dictionary<string, Texture>();
 
-        public static Texture Get(string name)
+        public static Texture Get(string name, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
         {
             if (_textures.ContainsKey(name))
                 return _textures[name];
-            var texture = new Texture(name);
+            var texture = new Texture(name, minFilter, magFilter);
             _textures.Add(name, texture);
-            return texture;
+            return _textures[name];
         }
 
         public static void DisposeTexture(string name)

@@ -1,13 +1,21 @@
 ﻿using _42run.OpenGL;
 using OpenTK;
+using System;
 
 namespace _42run.Gameplay
 {
     public static class GroundFactory
     {
+        private static Random _random = new Random();
+
         public static Ground NewGround(Vector3 position, Direction direction, out Vector3 next)
         {
-            var ground = new GroundSimple(direction) { Position = position };
+            var groundNum = _random.Next(0, 2);
+            Ground ground;
+            if (groundNum == 0)
+                ground = new GroundSimple(direction) { Position = position };
+            else
+                ground = new GroundCluster(direction) { Position = position };
             next = position + DirectionHelper.GetVectorFromDirection(direction) * ground.Length;
             return ground;
         }

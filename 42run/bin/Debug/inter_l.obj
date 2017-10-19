@@ -1,7 +1,5 @@
-# Blender v2.78 (sub 0) OBJ File: ''
-# www.blender.org
+
 mtllib inter_l.mtl
-o Cube_2_Untitled.003
 v -3.000000 5.999999 6.000001
 v -3.000000 6.199999 6.000001
 v 5.000000 5.999999 6.000001
@@ -62,6 +60,7 @@ vn 0.0000 1.0000 0.0000
 vn 1.0000 0.0000 0.0000
 vn 0.0000 0.0000 -1.0000
 usemtl default.003
+o Cube_2_Untitled.003
 s 1
 f 3/1/1 1/2/1 7/3/1
 f 5/4/1 3/1/1 7/3/1

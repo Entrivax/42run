@@ -35,6 +35,7 @@ namespace _42run.GameStates
         private Object3D _interLeftMesh;
         private Object3D _interRightMesh;
         private Object3D _interLeftRightMesh;
+        private Object3D _trashMesh;
         private Object3D _playerMesh;
 
         private Matrix4 _proj;
@@ -116,6 +117,11 @@ namespace _42run.GameStates
 
             Intersection.LeftRight_Mesh = _interLeftRightMesh;
 
+            _trashMesh = new Object3D("trash.obj", false, false, true);
+            _trashMesh.LoadInGl(_baseShader);
+
+            ObstacleTrash.MeshToUse = _trashMesh;
+
 
             // WORLD INITIALISATION ********************************************************* //
             _world = new World();
@@ -133,10 +139,10 @@ namespace _42run.GameStates
             var rotation = DirectionHelper.GetRotationFromDirection(Direction.NORTH);
             var w1p1 = new Vector3(new Vector4(-3f, 0f, -7f, 1) * rotation);
             var w1p2 = new Vector3(new Vector4(3f, 5f, -6f, 1) * rotation);
-            _world.Obstacles.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w1p1, w1p2), Vector3.ComponentMax(w1p1, w1p2)), intersection.Position));
+            _world.Obstacles.Add(new Obstacle(new AxisAlignedBB(Vector3.ComponentMin(w1p1, w1p2), Vector3.ComponentMax(w1p1, w1p2)), intersection.Position, Direction.NORTH));
             var w2p1 = new Vector3(new Vector4(3f, 0f, -6f, 1) * rotation);
             var w2p2 = new Vector3(new Vector4(4f, 5f, 0f, 1) * rotation);
-            _world.Obstacles.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position));
+            _world.Obstacles.Add(new Obstacle(new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position, Direction.NORTH));
         }
         
         public void Update(double deltaTime)
@@ -185,8 +191,8 @@ namespace _42run.GameStates
 
 
                 model = _player.BoundingBox.CreateModelMatrix() * model;
-                viewModel = model * view;
-                _baseShader.SetUniformMatrix4("view", false, ref viewModel);
+                //viewModel = model * view;
+                //_baseShader.SetUniformMatrix4("view", false, ref viewModel);
                 //_player.BoundingBox.Draw();
 
                 var color = new Vector3(1, 1, 1);
@@ -194,11 +200,11 @@ namespace _42run.GameStates
                 foreach (var ground in _world.Grounds.ToArray())
                 {
 
-                    model = ground.BoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
+                    /*model = ground.BoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
                     viewModel = model * view;
                     color = new Vector3(0.7f, 0.7f, 0.7f);
                     _baseShader.SetUniform3("col", ref color);
-                    _baseShader.SetUniformMatrix4("view", false, ref viewModel);
+                    _baseShader.SetUniformMatrix4("view", false, ref viewModel);*/
                     if (ground.GetType() == typeof(Intersection))
                     {
                         //ground.BoundingBox.Draw();
@@ -216,12 +222,12 @@ namespace _42run.GameStates
                         else
                             inter.Mesh.Draw();
 
-                        model = inter.ActivableBoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
+                        /*model = inter.ActivableBoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
                         viewModel = model * view;
                         color = new Vector3(0, 1, 0);
                         _baseShader.SetUniform3("col", ref color);
                         _baseShader.SetUniformMatrix4("view", false, ref viewModel);
-                        //inter.ActivableBoundingBox.Draw();
+                        inter.ActivableBoundingBox.Draw();*/
                     }
                     else
                     {
@@ -237,18 +243,18 @@ namespace _42run.GameStates
 
                 foreach (var obstacle in _world.Obstacles.ToArray())
                 {
-                    model = Matrix4.CreateTranslation(obstacle.Position);
+                    model = DirectionHelper.GetRotationFromDirection(obstacle.Direction) * Matrix4.CreateTranslation(obstacle.Position);
                     viewModel = model * view;
                     color = new Vector3(0.7f, 0.2f, 1f);
                     _baseShader.SetUniform3("col", ref color);
                     _baseShader.SetUniformMatrix4("view", false, ref viewModel);
                     obstacle.Mesh?.Draw();
-                    model = obstacle.BoundingBox.CreateModelMatrix() * model;
+                    /*model = obstacle.BoundingBox.CreateModelMatrix() * model;
                     viewModel = model * view;
                     color = new Vector3(0.1f, 0.2f, 1f);
                     _baseShader.SetUniform3("col", ref color);
                     _baseShader.SetUniformMatrix4("view", false, ref viewModel);
-                    obstacle.BoundingBox.Draw();
+                    obstacle.BoundingBox.Draw();*/
                 }
 
                 color = new Vector3(1f, 0.6f, 0.2f);

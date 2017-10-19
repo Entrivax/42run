@@ -43,7 +43,8 @@ namespace _42run.Gameplay
                 int toGenerate = _rand.Next(10) + 5;
                 List<Ground> generatedGrounds = new List<Ground>();
                 var dirVector = DirectionHelper.GetVectorFromDirection(direction);
-                var nextPosition = _intersection.Position + dirVector * 5f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
+                var interDir = DirectionHelper.GetVectorFromDirection(_intersection.Direction);
+                var nextPosition = _intersection.Position + dirVector * 5f + interDir * 3f;
                 for (int i = 0; i < toGenerate; i++)
                 {
                     generatedGrounds.Add(GroundFactory.NewGround(nextPosition, direction, out nextPosition));
@@ -55,21 +56,32 @@ namespace _42run.Gameplay
                 var rotation = DirectionHelper.GetRotationFromDirection(direction);
                 var wallsColliders = new List<Obstacle>();
 
+                var generateObstacleAt = _intersection.Position + dirVector * 20f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
+                var endObstacleGeneration = nextPosition - dirVector * 5f;
+
+                while (Vector3.Dot(generateObstacleAt - endObstacleGeneration, dirVector) < 0)
+                {
+                    if (_rand.Next(6) == 0)
+                        wallsColliders.Add(ObstacleFactory.NewObstacle(generateObstacleAt + interDir * _rand.Next(-1, 1) * 2, direction));
+                    generateObstacleAt += dirVector * 5f;
+                }
+
                 var w1p1 = new Vector3(new Vector4(-3f, 0f, -7f, 1) * rotation);
                 var w1p2 = new Vector3(new Vector4(3f, 5f, -6f, 1) * rotation);
-                wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w1p1, w1p2), Vector3.ComponentMax(w1p1, w1p2)), intersection.Position));
+                wallsColliders.Add(new Obstacle(new AxisAlignedBB(Vector3.ComponentMin(w1p1, w1p2), Vector3.ComponentMax(w1p1, w1p2)), intersection.Position, Direction.NORTH));
                 if (intersection.Directions == (int)Intersection.IntersectionDirection.LEFT)
                 {
                     var w2p1 = new Vector3(new Vector4(3f, 0f, -6f, 1) * rotation);
                     var w2p2 = new Vector3(new Vector4(4f, 5f, 0f, 1) * rotation);
-                    wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position));
+                    wallsColliders.Add(new Obstacle(new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position, Direction.NORTH));
                 }
                 if (intersection.Directions == (int)Intersection.IntersectionDirection.RIGHT)
                 {
                     var w2p1 = new Vector3(new Vector4(-4f, 0f, -6f, 1) * rotation);
                     var w2p2 = new Vector3(new Vector4(-3f, 5f, 0f, 1) * rotation);
-                    wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position));
+                    wallsColliders.Add(new Obstacle(new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position, Direction.NORTH));
                 }
+                _player.World.Obstacles.AddRange(wallsColliders);
                 var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
                 var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
                 leftTerrainRemover = new TerrainRemover(_player, generatedGrounds, new List<Trigger>(_player.World.TriggersToAdd.ToArray()), wallsColliders) { Position = _intersection.Position + dirVector * 10f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
@@ -84,7 +96,8 @@ namespace _42run.Gameplay
                 int toGenerate = _rand.Next(10) + 5;
                 List<Ground> generatedGrounds = new List<Ground>();
                 var dirVector = DirectionHelper.GetVectorFromDirection(direction);
-                var nextPosition = _intersection.Position + dirVector * 5f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
+                var interDir = DirectionHelper.GetVectorFromDirection(_intersection.Direction);
+                var nextPosition = _intersection.Position + dirVector * 5f + interDir * 3f;
                 for (int i = 0; i < toGenerate; i++)
                 {
                     generatedGrounds.Add(GroundFactory.NewGround(nextPosition, direction, out nextPosition));
@@ -101,21 +114,32 @@ namespace _42run.Gameplay
                 var rotation = DirectionHelper.GetRotationFromDirection(direction);
                 var wallsColliders = new List<Obstacle>();
 
+                var generateObstacleAt = _intersection.Position + dirVector * 20f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
+                var endObstacleGeneration = nextPosition - dirVector * 5f;
+
+                while (Vector3.Dot(generateObstacleAt - endObstacleGeneration, dirVector) < 0)
+                {
+                    if (_rand.Next(6) == 0)
+                        wallsColliders.Add(ObstacleFactory.NewObstacle(generateObstacleAt + interDir * _rand.Next(-1, 1) * 2, direction));
+                    generateObstacleAt += dirVector * 5f;
+                }
+
                 var w1p1 = new Vector3(new Vector4(-3f, 0f, -7f, 1) * rotation);
                 var w1p2 = new Vector3(new Vector4(3f, 5f, -6f, 1) * rotation);
-                wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w1p1, w1p2), Vector3.ComponentMax(w1p1, w1p2)), intersection.Position));
+                wallsColliders.Add(new Obstacle(new AxisAlignedBB(Vector3.ComponentMin(w1p1, w1p2), Vector3.ComponentMax(w1p1, w1p2)), intersection.Position, Direction.NORTH));
                 if (intersection.Directions == (int)Intersection.IntersectionDirection.LEFT)
                 {
                     var w2p1 = new Vector3(new Vector4(3f, 0f, -6f, 1) * rotation);
                     var w2p2 = new Vector3(new Vector4(4f, 5f, 0f, 1) * rotation);
-                    wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position));
+                    wallsColliders.Add(new Obstacle(new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position, Direction.NORTH));
                 }
                 if (intersection.Directions == (int)Intersection.IntersectionDirection.RIGHT)
                 {
                     var w2p1 = new Vector3(new Vector4(-4f, 0f, -6f, 1) * rotation);
                     var w2p2 = new Vector3(new Vector4(-3f, 5f, 0f, 1) * rotation);
-                    wallsColliders.Add(new Obstacle(null, new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position));
+                    wallsColliders.Add(new Obstacle(new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position, Direction.NORTH));
                 }
+                _player.World.Obstacles.AddRange(wallsColliders);
                 var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
                 var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
                 var terrainRemover = new TerrainRemover(_player, generatedGrounds, triggersToKeep, wallsColliders) { Position = _intersection.Position + dirVector * 10f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };

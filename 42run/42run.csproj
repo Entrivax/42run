@@ -64,6 +64,8 @@
     <Compile Include="Gameplay\GroundSimple.cs" />
     <Compile Include="Gameplay\Intersection.cs" />
     <Compile Include="Gameplay\Obstacle.cs" />
+    <Compile Include="Gameplay\ObstacleFactory.cs" />
+    <Compile Include="Gameplay\ObstacleTrash.cs" />
     <Compile Include="Gameplay\Player.cs" />
     <Compile Include="Gameplay\ScoreObject.cs" />
     <Compile Include="Gameplay\TerrainGenerator.cs" />

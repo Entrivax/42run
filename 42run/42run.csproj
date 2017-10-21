@@ -73,6 +73,7 @@
     <Compile Include="Gameplay\Trigger.cs" />
     <Compile Include="Gameplay\World.cs" />
     <Compile Include="GameStates\GameStateGameOver.cs" />
+    <Compile Include="GameStates\GameStateMenu.cs" />
     <Compile Include="GameStates\GameStatePlay.cs" />
     <Compile Include="GameStates\IGameState.cs" />
     <Compile Include="MainWindow.cs" />

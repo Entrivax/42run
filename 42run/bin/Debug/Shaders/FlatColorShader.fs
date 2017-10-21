@@ -9,5 +9,5 @@ out vec4 color;
 
 void main(void)
 {
-	color = texture(tex, uv);
+	color = texture(tex, uv) * vec4(col, 1);
 }

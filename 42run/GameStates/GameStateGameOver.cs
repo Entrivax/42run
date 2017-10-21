@@ -119,6 +119,7 @@ namespace _42run.GameStates
             if (key == Key.Enter)
             {
                 SendScore();
+                MainWindow.SetGameState(new GameStateMenu());
             }
             else if (key == Key.BackSpace)
             {
@@ -152,6 +153,8 @@ namespace _42run.GameStates
 
         protected void SendScore()
         {
+            if (string.IsNullOrWhiteSpace(_name))
+                return;
             try
             {
                 WebClient client = new WebClient();

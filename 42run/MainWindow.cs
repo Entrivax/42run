@@ -33,7 +33,7 @@ namespace _42run
             CursorVisible = true;
             KeyPress += OnKeyPress;
             KeyDown += OnKeyDown;
-            SetInstanceGameState(new GameStatePlay());
+            SetInstanceGameState(new GameStateMenu());
             base.OnLoad(e);
         }
 

@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ namespace _42run.OpenGL
 {
     public class Text : IDisposable
     {
+        public Color4 Color { get; set; } = Color4.White;
         public Vector2 Position { get; set; }
         public Font Font { get; set; }
         public Shader Shader { get; set; }
@@ -95,6 +97,8 @@ namespace _42run.OpenGL
 
         public void Draw()
         {
+            var color = new Vector3(Color.R, Color.G, Color.B);
+            Shader.SetUniform3("col", ref color);
             TextureManager.Use(Font.Texture);
             _vao.Bind();
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);

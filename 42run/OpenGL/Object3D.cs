@@ -51,14 +51,6 @@ namespace _42run.OpenGL
                     }
                     if (split.Length == 4 && split[0] == "f")
                     {
-                        /*if (currentMesh == null)
-                        {
-                            currentMesh = new Mesh
-                            {
-                                Material = currentMaterial
-                            };
-                            meshs.Add(currentMesh);
-                        }*/
                         var vert1 = split[1].Split(new[] { '/' }, StringSplitOptions.None);
                         var vert2 = split[2].Split(new[] { '/' }, StringSplitOptions.None);
                         var vert3 = split[3].Split(new[] { '/' }, StringSplitOptions.None);

@@ -34,5 +34,14 @@ namespace _42run.OpenGL
         {
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
+
+        public static void Clear()
+        {
+            foreach(var texture in _textures)
+            {
+                texture.Value.Dispose();
+            }
+            _textures.Clear();
+        }
     }
 }

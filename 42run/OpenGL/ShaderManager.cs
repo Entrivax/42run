@@ -39,5 +39,14 @@ namespace _42run.OpenGL
         {
             GL.UseProgram(0);
         }
+
+        public static void Clear()
+        {
+            foreach(var shader in _shaders)
+            {
+                shader.Value.Dispose();
+            }
+            _shaders.Clear();
+        }
     }
 }

@@ -84,7 +84,7 @@ namespace _42run.Gameplay
                 _player.World.Obstacles.AddRange(wallsColliders);
                 var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
                 var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
-                leftTerrainRemover = new TerrainRemover(_player, generatedGrounds, new List<Trigger>(_player.World.TriggersToAdd.ToArray()), wallsColliders) { Position = _intersection.Position + dirVector * 10f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
+                leftTerrainRemover = new TerrainRemover(_player, generatedGrounds, new List<Trigger>(_player.World.TriggersToAdd.ToArray()), wallsColliders) { Position = _intersection.Position + dirVector * 12f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
                 _player.World.TriggersToAdd.Add(leftTerrainRemover);
             }
             if ((_intersection.Directions & (int)Intersection.IntersectionDirection.RIGHT) > 0)
@@ -142,7 +142,7 @@ namespace _42run.Gameplay
                 _player.World.Obstacles.AddRange(wallsColliders);
                 var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
                 var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
-                var terrainRemover = new TerrainRemover(_player, generatedGrounds, triggersToKeep, wallsColliders) { Position = _intersection.Position + dirVector * 10f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
+                var terrainRemover = new TerrainRemover(_player, generatedGrounds, triggersToKeep, wallsColliders) { Position = _intersection.Position + dirVector * 12f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
                 _player.World.TriggersToAdd.Add(terrainRemover);
             }
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace _42run.OpenGL
 {
@@ -26,6 +22,15 @@ namespace _42run.OpenGL
                 _fonts[name].Dispose();
                 _fonts.Remove(name);
             }
+        }
+
+        public static void Clear()
+        {
+            foreach(var font in _fonts)
+            {
+                font.Value.Dispose();
+            }
+            _fonts.Clear();
         }
     }
 }

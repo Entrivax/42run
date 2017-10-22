@@ -1,12 +1,10 @@
-﻿using _42run.Gameplay;
-using _42run.GameStates;
+﻿using _42run.GameStates;
 using _42run.OpenGL;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using System;
-using System.Collections.Generic;
 
 namespace _42run
 {
@@ -51,6 +49,9 @@ namespace _42run
         {
             _gameState?.Dispose();
             _gameState = null;
+            FontManager.Clear();
+            ShaderManager.Clear();
+            TextureManager.Clear();
             base.OnUnload(e);
         }
 

@@ -24,10 +24,6 @@ namespace _42run.GameStates
         private Shader _baseShader;
 
         private SpriteSheet _playerSpriteSheet;
-        private Texture _interLeftTex;
-        private Texture _interRightTex;
-        private Texture _interLeftRightTex;
-        private Texture _wallTex;
 
         private Object3D _groundMesh;
         private Object3D _groundClusterMesh;
@@ -51,7 +47,6 @@ namespace _42run.GameStates
         {
             _backColor = new Color4(0f, 0f, 0f, 1f);
 
-            _camera = new Camera(Vector3.Zero, Vector3.UnitZ, (float)(80f * (Math.PI / 180f)));
 
             // SHADERS RETRIEVING *********************************************************** //
             _flatColorShader = ShaderManager.Get("FlatColorShader");
@@ -122,7 +117,8 @@ namespace _42run.GameStates
             // WORLD INITIALISATION ********************************************************* //
             _world = new World();
             // PLAYER INITIALISATION ******************************************************** //
-            _player = new Player { World = _world, Position = new Vector3(0), Speed = 12.5f };
+            _player = new Player { World = _world, Position = new Vector3(0, 0, -3f), Speed = 12.5f };
+            _camera = new Camera(new Vector3(0, 1f, -6f), _player.PositionForCamera + new Vector3(0, 2.5f, 0), (float)(80f * (Math.PI / 180f)));
 
             // TERRAIN GENERATION *********************************************************** //
             var tilesToGenerate = 10;
@@ -156,11 +152,7 @@ namespace _42run.GameStates
                 var playerPosition = _player.PositionForCamera;
 
                 _camera.Target = playerPosition + new Vector3(0, 2.5f, 0);
-                //if (cam)
-                    _camera.UpdateCameraPosition(playerPosition + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f) + new Vector3(0, 3, 0), (float)deltaTime, 5f);
-                // DEBUG CAM
-                /*else
-                    _camera.Position = new Vector3(playerPosition.X, 10, playerPosition.Z) + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f);*/
+                _camera.UpdateCameraPosition(playerPosition + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f) + new Vector3(0, 3, 0), (float)deltaTime, 5f);
             }
         }
 
@@ -185,23 +177,13 @@ namespace _42run.GameStates
 
 
                 model = _player.BoundingBox.CreateModelMatrix() * model;
-                //viewModel = model * view;
-                //_baseShader.SetUniformMatrix4("view", false, ref viewModel);
-                //_player.BoundingBox.Draw();
 
                 var color = new Vector3(1, 1, 1);
 
                 foreach (var ground in _world.Grounds.ToArray())
                 {
-
-                    /*model = ground.BoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
-                    viewModel = model * view;
-                    color = new Vector3(0.7f, 0.7f, 0.7f);
-                    _baseShader.SetUniform3("col", ref color);
-                    _baseShader.SetUniformMatrix4("view", false, ref viewModel);*/
                     if (ground.GetType() == typeof(Intersection))
                     {
-                        //ground.BoundingBox.Draw();
                         var inter = (Intersection)ground;
 
                         model = DirectionHelper.GetRotationFromDirection(inter.Direction) * Matrix4.CreateTranslation(inter.Position);
@@ -215,17 +197,9 @@ namespace _42run.GameStates
                             inter.Mesh.Draw();
                         else
                             inter.Mesh.Draw();
-
-                        /*model = inter.ActivableBoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(ground.Position);
-                        viewModel = model * view;
-                        color = new Vector3(0, 1, 0);
-                        _baseShader.SetUniform3("col", ref color);
-                        _baseShader.SetUniformMatrix4("view", false, ref viewModel);
-                        inter.ActivableBoundingBox.Draw();*/
                     }
                     else
                     {
-                        //ground.BoundingBox.Draw();
                         model = DirectionHelper.GetRotationFromDirection(ground.Direction) * Matrix4.CreateTranslation(ground.Position);
                         viewModel = model * view;
                         color = new Vector3(0.8f, 0.8f, 0.8f);
@@ -243,12 +217,6 @@ namespace _42run.GameStates
                     _baseShader.SetUniform3("col", ref color);
                     _baseShader.SetUniformMatrix4("view", false, ref viewModel);
                     obstacle.Mesh?.Draw();
-                    /*model = obstacle.BoundingBox.CreateModelMatrix() * model;
-                    viewModel = model * view;
-                    color = new Vector3(0.1f, 0.2f, 1f);
-                    _baseShader.SetUniform3("col", ref color);
-                    _baseShader.SetUniformMatrix4("view", false, ref viewModel);
-                    obstacle.BoundingBox.Draw();*/
                 }
 
                 color = new Vector3(1f, 0.6f, 0.2f);
@@ -258,7 +226,6 @@ namespace _42run.GameStates
                     model = trigger.BoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(trigger.Position);
                     viewModel = model * view;
                     _baseShader.SetUniformMatrix4("view", false, ref viewModel);
-                    //trigger.BoundingBox.Draw();
                 }
 
                 _baseShader.Unbind();
@@ -319,6 +286,8 @@ namespace _42run.GameStates
             _scoreText = null;
             _groundMesh?.Dispose();
             _groundMesh = null;
+            _groundClusterMesh?.Dispose();
+            _groundClusterMesh = null;
             _cubeMesh?.Dispose();
             _cubeMesh = null;
             _interLeftMesh?.Dispose();
@@ -327,18 +296,12 @@ namespace _42run.GameStates
             _interRightMesh = null;
             _interLeftRightMesh?.Dispose();
             _interLeftRightMesh = null;
+            _trashMesh?.Dispose();
+            _trashMesh = null;
             _playerMesh?.Dispose();
             _playerMesh = null;
             _playerSpriteSheet?.Dispose();
             _playerSpriteSheet = null;
-            _interLeftTex?.Dispose();
-            _interLeftTex = null;
-            _interRightTex?.Dispose();
-            _interRightTex = null;
-            _interLeftRightTex?.Dispose();
-            _interLeftRightTex = null;
-            _wallTex?.Dispose();
-            _wallTex = null;
         }
 
         public void OnKeyPress(char key) { }

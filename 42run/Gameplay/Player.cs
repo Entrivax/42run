@@ -35,6 +35,9 @@ namespace _42run.Gameplay
         public float Score = 0f;
         private const float _scoreIncrementation = 15f;
         
+        private float _animTime;
+        public int AnimationFrame { get { return ((int)(_animTime * 10)) % 10; } }
+        
         public void Update(double time)
         {
             if (Dead)
@@ -45,6 +48,7 @@ namespace _42run.Gameplay
             Speed += (float)time * _speedIncrease;
             if (Speed > _maxSpeed)
                 Speed = _maxSpeed;
+            _animTime += ((float)time * Speed) / 12.5f;
             if (KeyboardHelper.GetKeyboardState().IsKeyDown(OpenTK.Input.Key.Right))
             {
                 _sidewayMove -= _sidewaySpeed;

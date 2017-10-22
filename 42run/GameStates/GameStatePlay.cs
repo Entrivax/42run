@@ -47,7 +47,7 @@ namespace _42run.GameStates
         private int _width;
         private int _height;
 
-        public GameStatePlay()
+        public GameStatePlay(string playerSkin)
         {
             _backColor = new Color4(0f, 0f, 0f, 1f);
 
@@ -80,11 +80,7 @@ namespace _42run.GameStates
             }});
             _playerMesh.LoadInGl(_3dSpriteShader);
             // TEXTURES INITIALISATION ****************************************************** //
-            /*_interLeftTex = new Texture("inter_l.png");
-            _interRightTex = new Texture("inter_r.png");
-            _interLeftRightTex = new Texture("inter_lr.png");*/
-            //_wallTex = TextureManager.Get("wall.png");
-            _playerSpriteSheet = new SpriteSheet(_playerMesh, "running_link.png", 24, 32, TextureMinFilter.Nearest, TextureMagFilter.Nearest);
+            _playerSpriteSheet = new SpriteSheet(_playerMesh, playerSkin, 24, 32, TextureMinFilter.Nearest, TextureMagFilter.Nearest);
 
             // MESH INITIALISATION ********************************************************** //
             _groundMesh = new Object3D("wall.obj", false, false, true);
@@ -147,8 +143,6 @@ namespace _42run.GameStates
         
         public void Update(double deltaTime)
         {
-            if (KeyboardHelper.IsKeyPressed(Key.Space))
-                _pause = !_pause;
             if (!_pause)
             {
                 _player.Update(deltaTime);
@@ -281,7 +275,7 @@ namespace _42run.GameStates
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-                _playerSpriteSheet.Draw(((int)(_time * 10)) % 10, 0);
+                _playerSpriteSheet.Draw(_player.AnimationFrame, 0);
 
                 GL.Disable(EnableCap.Blend);
 
@@ -349,6 +343,10 @@ namespace _42run.GameStates
 
         public void OnKeyPress(char key) { }
 
-        public void OnKeyDown(Key key) { }
+        public void OnKeyDown(Key key)
+        {
+            if (key == Key.Space)
+                _pause = !_pause;
+        }
     }
 }

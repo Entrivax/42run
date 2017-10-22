@@ -37,8 +37,8 @@ namespace _42run.OpenGL
 
         public void Dispose()
         {
-            _vao?.Dispose();
-            _vbo?.Dispose();
+            _vao.Dispose();
+            _vbo.Dispose();
         }
 
         private string _str;

@@ -55,15 +55,15 @@ namespace _42run.GameStates
 
         public void Dispose()
         {
-            _scoreText?.Dispose();
+            _scoreText.Dispose();
             _scoreText = null;
-            _nameText?.Dispose();
+            _nameText.Dispose();
             _nameText = null;
-            _scoreboardText?.Dispose();
+            _scoreboardText.Dispose();
             _scoreboardText = null;
-            _scoreboardNameText?.Dispose();
+            _scoreboardNameText.Dispose();
             _scoreboardNameText = null;
-            _scoreboardScoreText?.Dispose();
+            _scoreboardScoreText.Dispose();
             _scoreboardScoreText = null;
         }
 

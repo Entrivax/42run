@@ -62,14 +62,14 @@ namespace _42run.GameStates
 
         public void Dispose()
         {
-            _text?.Dispose();
+            _text.Dispose();
             _text = null;
             foreach (var spriteSheet in _playerSpriteSheets)
             {
                 spriteSheet.Dispose();
             }
             _playerSpriteSheets = null;
-            _playerMesh?.Dispose();
+            _playerMesh.Dispose();
             _playerMesh = null;
         }
 

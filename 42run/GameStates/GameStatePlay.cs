@@ -282,25 +282,25 @@ namespace _42run.GameStates
 
         public void Dispose()
         {
-            _scoreText?.Dispose();
+            _scoreText.Dispose();
             _scoreText = null;
-            _groundMesh?.Dispose();
+            _groundMesh.Dispose();
             _groundMesh = null;
-            _groundClusterMesh?.Dispose();
+            _groundClusterMesh.Dispose();
             _groundClusterMesh = null;
-            _cubeMesh?.Dispose();
+            _cubeMesh.Dispose();
             _cubeMesh = null;
-            _interLeftMesh?.Dispose();
+            _interLeftMesh.Dispose();
             _interLeftMesh = null;
-            _interRightMesh?.Dispose();
+            _interRightMesh.Dispose();
             _interRightMesh = null;
-            _interLeftRightMesh?.Dispose();
+            _interLeftRightMesh.Dispose();
             _interLeftRightMesh = null;
-            _trashMesh?.Dispose();
+            _trashMesh.Dispose();
             _trashMesh = null;
-            _playerMesh?.Dispose();
+            _playerMesh.Dispose();
             _playerMesh = null;
-            _playerSpriteSheet?.Dispose();
+            _playerSpriteSheet.Dispose();
             _playerSpriteSheet = null;
         }
 

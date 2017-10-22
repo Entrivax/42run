@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio\2017\community\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="15.0">
+ <Targets>
+  <Target Name="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\42run.exe">
+   <Modules>
+    <Module Name="42run.exe">
+     <Namespaces>
+      <Namespace Name="_42run.GameStates">
+       <Types>
+        <Type Name="GameStateGameOver" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'GameStateGameOver' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\GameStates" File="GameStateGameOver.cs" Line="57">Modifiez 'GameStateGameOver.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="GameStateMenu" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'GameStateMenu' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\GameStates" File="GameStateMenu.cs" Line="64">Modifiez 'GameStateMenu.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="GameStatePlay" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'GameStatePlay' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\GameStates" File="GameStatePlay.cs" Line="284">Modifiez 'GameStatePlay.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="_42run.OpenGL">
+       <Types>
+        <Type Name="Font" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'Font' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\OpenGL" File="Font.cs" Line="33">Modifiez 'Font.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Framebuffer" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'Framebuffer' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\OpenGL" File="Framebuffer.cs" Line="49">Modifiez 'Framebuffer.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Mesh" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'Mesh' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\OpenGL" File="Mesh.cs" Line="27">Modifiez 'Mesh.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Object3D" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'Object3D' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\OpenGL" File="Object3D.cs" Line="137">Modifiez 'Object3D.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Shader" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'Shader' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\OpenGL" File="Shader.cs" Line="76">Modifiez 'Shader.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="SpriteSheet" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'SpriteSheet' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\OpenGL" File="SpriteSheet.cs" Line="38">Modifiez 'SpriteSheet.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Text" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'Text' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\OpenGL" File="Text.cs" Line="39">Modifiez 'Text.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Texture" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'Texture' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\OpenGL" File="Texture.cs" Line="64">Modifiez 'Texture.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Vao`1" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'Vao&lt;T&gt;' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\OpenGL" File="Vao.cs" Line="42">Modifiez 'Vao&lt;T&gt;.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Vbo" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Fournissez une implémentation substituable de Dispose(bool) sur 'Vbo' ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-22 21:34:05Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="J:\User\Documents\Visual Studio 2017\Projects\42run\42run\OpenGL" File="Vbo.cs" Line="44">Modifiez 'Vbo.Dispose()' afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="_42run.Properties">
+       <Types>
+        <Type Name="Resources" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Assembly" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="ExcludedInSource" Created="2017-10-22 21:34:05Z" FixCategory="NonBreaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
+   <Name>Évitez le recours à du code privé non appelé</Name>
+   <Description>Il existe du code non appelé qui n'est pas visible de l'extérieur et ne constitue pas un point d'entrée connu du runtime. Si cette violation provoque une erreur, signalez le problème à l'équipe Visual Studio Code Analysis.</Description>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182264.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063">
+   <Name>Implémenter IDisposable correctement</Name>
+   <Description>Tous les types IDisposable doivent implémenter le modèle Dispose correctement.</Description>
+   <Resolution Name="DisposeImplementation">Modifiez {0} afin qu'il appelle Dispose(true) et GC.SuppressFinalize sur l'instance d'objet actuelle ('this' ou 'Me' dans VB), puis qu'il retourne une valeur.</Resolution>
+   <Resolution Name="ProvideDisposeBool">Fournissez une implémentation substituable de Dispose(bool) sur {0} ou marquez le type comme sealed. Un appel à Dispose(false) doit nettoyer uniquement les ressources natives. Un appel à Dispose(true) doit nettoyer les ressources managées et les ressources natives.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms244737.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="15.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Catégorie</String>
+  <String Key="Certainty">Certitude</String>
+  <String Key="CollapseAll">Réduire tout</String>
+  <String Key="CheckId">ID de contrôle</String>
+  <String Key="Error">Erreur</String>
+  <String Key="Errors">erreur(s)</String>
+  <String Key="ExpandAll">Développer tout</String>
+  <String Key="Help">Aide</String>
+  <String Key="Line">Ligne</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Emplacement non stocké dans le fichier Pdb]</String>
+  <String Key="Project">Projet</String>
+  <String Key="Resolution">Résolution</String>
+  <String Key="Rule">Règle</String>
+  <String Key="RuleFile">Fichier de règles</String>
+  <String Key="RuleDescription">Description de la règle</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">État</String>
+  <String Key="Target">Cible</String>
+  <String Key="Warning">Avertissement</String>
+  <String Key="Warnings">avertissement(s)</String>
+  <String Key="ReportTitle">Rapport d'analyse du code</String>
+ </Localized>
+</FxCopReport>

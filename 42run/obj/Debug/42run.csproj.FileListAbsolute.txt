@@ -3,7 +3,6 @@ j:\user\documents\visual studio 2017\Projects\42run\42run\bin\Debug\42run.exe
 j:\user\documents\visual studio 2017\Projects\42run\42run\bin\Debug\42run.pdb
 j:\user\documents\visual studio 2017\Projects\42run\42run\bin\Debug\OpenTK.dll
 j:\user\documents\visual studio 2017\Projects\42run\42run\bin\Debug\OpenTK.xml
-j:\user\documents\visual studio 2017\Projects\42run\42run\obj\Debug\42run.csprojResolveAssemblyReference.cache
 j:\user\documents\visual studio 2017\Projects\42run\42run\obj\Debug\_42run.Properties.Resources.resources
 j:\user\documents\visual studio 2017\Projects\42run\42run\obj\Debug\42run.csproj.GenerateResource.Cache
 j:\user\documents\visual studio 2017\Projects\42run\42run\obj\Debug\42run.exe
@@ -35,3 +34,5 @@ J:\User\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Newtonsoft.J
 J:\User\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Entrivax\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\Newtonsoft.Json.xml
+J:\User\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\42run.exe.CodeAnalysisLog.xml
+J:\User\Documents\Visual Studio 2017\Projects\42run\42run\bin\Debug\42run.exe.lastcodeanalysissucceeded

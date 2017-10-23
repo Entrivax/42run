@@ -10,7 +10,7 @@ namespace _42run.OpenGL
         {
             if (_fonts.ContainsKey(name))
                 return _fonts[name];
-            var font = new Font($"{name}.png", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789=*-+[]{}()|\\,./<>?;:'\"");
+            var font = new Font($"{name}.png", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789=*-+[]{}()|\\,./<>?;:'\"!@#$%^&_", 16, 20);
             _fonts.Add(name, font);
             return font;
         }

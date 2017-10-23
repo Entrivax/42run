@@ -27,11 +27,20 @@ namespace _42run
 
         protected override void OnLoad(EventArgs e)
         {
-            Closed += OnClosed;
-            CursorVisible = true;
-            KeyPress += OnKeyPress;
-            KeyDown += OnKeyDown;
-            SetInstanceGameState(new GameStateMenu());
+            try
+            {
+                Closed += OnClosed;
+                CursorVisible = true;
+                KeyPress += OnKeyPress;
+                KeyDown += OnKeyDown;
+                SetInstanceGameState(new GameStateMenu());
+            }
+            catch (Exception exception)
+            {
+                Console.Error.WriteLine($"Une exception de type {exception.GetType()} est survenue, message : {exception.Message}");
+                Console.WriteLine("Sortie...");
+                Environment.Exit(1);
+            }
             base.OnLoad(e);
         }
 

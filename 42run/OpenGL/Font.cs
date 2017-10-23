@@ -5,23 +5,28 @@ namespace _42run.OpenGL
     public class Font : IDisposable
     {
         private string _availableChars;
-
-        public float CharLength { get; private set; }
+        
+        public float CharTextureLength { get; private set; }
+        public float CharTextureHeight { get; private set; }
         public float CharWidth { get; private set; }
+        public float CharHeight { get; private set; }
 
         public Texture Texture { get; private set; }
 
-        public Font(string path, string availableChars)
+        public Font(string path, string availableChars, float charWidth, float charHeight)
         {
             _availableChars = availableChars;
-            CharLength = 1.0f / _availableChars.Length;
             Texture = new Texture(path);
-            CharWidth = Texture.Width / _availableChars.Length;
+            CharTextureLength = ((charWidth * _availableChars.Length) / Texture.Width) / _availableChars.Length;
+            CharTextureHeight = charHeight / Texture.Height;
+
+            CharWidth = charWidth;
+            CharHeight = charHeight;
         }
 
         public float GetUFor(char c)
         {
-            return _availableChars.IndexOf(c) * CharLength;
+            return _availableChars.IndexOf(c) * CharTextureLength;
         }
 
         public float GetStringWidth(string str)

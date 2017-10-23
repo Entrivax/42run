@@ -62,19 +62,19 @@ namespace _42run.OpenGL
             {
                 var prevX = 0f;
                 var leftPadding = TextAlignment == Alignment.LEFT ? 0 : (TextAlignment == Alignment.RIGHT ? -Font.GetStringWidth(split[i]) : -Font.GetStringWidth(split[i]) / 2);
-                prevY -= Font.Texture.Height;
+                prevY -= Font.CharHeight;
                 foreach (var c in split[i])
                 {
                     var u = Font.GetUFor(c);
                     chars.AddRange(new Vertex[]
                     {
-                        new Vertex(new Vector3(prevX + leftPadding, prevY + Font.Texture.Height, 0f), new Vector2(u, 0)),
-                        new Vertex(new Vector3(prevX + leftPadding, prevY, 0f), new Vector2(u, 1)),
-                        new Vertex(new Vector3(prevX + leftPadding + Font.CharWidth, prevY + Font.Texture.Height, 0f), new Vector2(u + Font.CharLength, 0)),
+                        new Vertex(new Vector3(prevX + leftPadding, prevY + Font.CharHeight, 0f), new Vector2(u, 0)),
+                        new Vertex(new Vector3(prevX + leftPadding, prevY, 0f), new Vector2(u, Font.CharTextureHeight)),
+                        new Vertex(new Vector3(prevX + leftPadding + Font.CharWidth, prevY + Font.CharHeight, 0f), new Vector2(u + Font.CharTextureLength, 0)),
 
-                        new Vertex(new Vector3(prevX + leftPadding + Font.CharWidth, prevY + Font.Texture.Height, 0f), new Vector2(u + Font.CharLength, 0)),
-                        new Vertex(new Vector3(prevX + leftPadding, prevY, 0f), new Vector2(u, 1)),
-                        new Vertex(new Vector3(prevX + leftPadding + Font.CharWidth, prevY, 0f), new Vector2(u + Font.CharLength, 1)),
+                        new Vertex(new Vector3(prevX + leftPadding + Font.CharWidth, prevY + Font.CharHeight, 0f), new Vector2(u + Font.CharTextureLength, 0)),
+                        new Vertex(new Vector3(prevX + leftPadding, prevY, 0f), new Vector2(u, Font.CharTextureHeight)),
+                        new Vertex(new Vector3(prevX + leftPadding + Font.CharWidth, prevY, 0f), new Vector2(u + Font.CharTextureLength, Font.CharTextureHeight)),
                     });
 
                     prevX += Font.CharWidth;

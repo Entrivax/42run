@@ -22,7 +22,6 @@ namespace _42run.OpenGL
 
         public Object3D(string path, bool invertX, bool invertY, bool invertZ)
         {
-            List<Vertex> vertices = new List<Vertex>();
             List<Vector3> points = new List<Vector3>();
             List<Vector2> uvs = new List<Vector2>();
             List<Mesh> meshs = new List<Mesh>();

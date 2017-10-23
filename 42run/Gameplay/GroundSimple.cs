@@ -15,9 +15,12 @@ namespace _42run.Gameplay
             var rotation = DirectionHelper.GetRotationFromDirection(direction);
             var p1 = new Vector4(-3f, -0.5f, -Length, 1) * rotation;
             var p2 = new Vector4(3f, 0f, 0f, 1) * rotation;
-            var p1v3 = new Vector3(p1);
-            var p2v3 = new Vector3(p2);
-            BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(p1v3, p2v3), Vector3.ComponentMax(p1v3, p2v3));
+            PossibleObstaclePositions = new Vector3[2];
+            for (int i = 0; i < 2; i++)
+            {
+                PossibleObstaclePositions[i] = (new Vector4(0, 0, -(i + 1) * 3, 1) * rotation).Xyz;
+            }
+            BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(p1.Xyz, p2.Xyz), Vector3.ComponentMax(p1.Xyz, p2.Xyz));
         }
     }
 }

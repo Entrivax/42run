@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _42run.Gameplay
 {
@@ -45,9 +43,12 @@ namespace _42run.Gameplay
                 var dirVector = DirectionHelper.GetVectorFromDirection(direction);
                 var interDir = DirectionHelper.GetVectorFromDirection(_intersection.Direction);
                 var nextPosition = _intersection.Position + dirVector * 5f + interDir * 3f;
+                List<Vector3> obstaclePositions = new List<Vector3>();
                 for (int i = 0; i < toGenerate; i++)
                 {
-                    generatedGrounds.Add(GroundFactory.NewGround(nextPosition, direction, out nextPosition));
+                    var grounds = GroundFactory.NewGround(nextPosition, direction, out nextPosition);
+                    Array.ForEach(grounds, ground => Array.ForEach(ground.PossibleObstaclePositions, possiblePos => obstaclePositions.Add(possiblePos + ground.Position)));
+                    generatedGrounds.AddRange(grounds);
                 }
                 var intersection = GroundFactory.NewIntersection(_player, _player.World, nextPosition, direction, _rand.Next(1, 4));
                 generatedGrounds.Add(intersection);
@@ -56,15 +57,7 @@ namespace _42run.Gameplay
                 var rotation = DirectionHelper.GetRotationFromDirection(direction);
                 var wallsColliders = new List<Obstacle>();
 
-                var generateObstacleAt = _intersection.Position + dirVector * 20f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
-                var endObstacleGeneration = nextPosition - dirVector * 5f;
-
-                while (Vector3.Dot(generateObstacleAt - endObstacleGeneration, dirVector) < 0)
-                {
-                    if (_rand.Next(6) == 0)
-                        wallsColliders.Add(ObstacleFactory.NewObstacle(generateObstacleAt + interDir * _rand.Next(-1, 1) * 2, direction));
-                    generateObstacleAt += dirVector * 5f;
-                }
+                obstaclePositions.ForEach(pos => { if ((pos - _intersection.Position).LengthFast > 20 && _rand.Next(4) == 0) wallsColliders.Add(ObstacleFactory.NewObstacle(pos + interDir * _rand.Next(-1, 1) * 2, direction)); });
 
                 var w1p1 = new Vector3(new Vector4(-3f, 0f, -7f, 1) * rotation);
                 var w1p2 = new Vector3(new Vector4(3f, 5f, -6f, 1) * rotation);
@@ -98,9 +91,12 @@ namespace _42run.Gameplay
                 var dirVector = DirectionHelper.GetVectorFromDirection(direction);
                 var interDir = DirectionHelper.GetVectorFromDirection(_intersection.Direction);
                 var nextPosition = _intersection.Position + dirVector * 5f + interDir * 3f;
+                List<Vector3> obstaclePositions = new List<Vector3>();
                 for (int i = 0; i < toGenerate; i++)
                 {
-                    generatedGrounds.Add(GroundFactory.NewGround(nextPosition, direction, out nextPosition));
+                    var grounds = GroundFactory.NewGround(nextPosition, direction, out nextPosition);
+                    Array.ForEach(grounds, ground => Array.ForEach(ground.PossibleObstaclePositions, possiblePos => obstaclePositions.Add(possiblePos + ground.Position)));
+                    generatedGrounds.AddRange(grounds);
                 }
                 var intersection = GroundFactory.NewIntersection(_player, _player.World, nextPosition, direction, _rand.Next(1, 4));
                 generatedGrounds.Add(intersection);
@@ -114,15 +110,7 @@ namespace _42run.Gameplay
                 var rotation = DirectionHelper.GetRotationFromDirection(direction);
                 var wallsColliders = new List<Obstacle>();
 
-                var generateObstacleAt = _intersection.Position + dirVector * 20f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f;
-                var endObstacleGeneration = nextPosition - dirVector * 5f;
-
-                while (Vector3.Dot(generateObstacleAt - endObstacleGeneration, dirVector) < 0)
-                {
-                    if (_rand.Next(6) == 0)
-                        wallsColliders.Add(ObstacleFactory.NewObstacle(generateObstacleAt + interDir * _rand.Next(-1, 1) * 2, direction));
-                    generateObstacleAt += dirVector * 5f;
-                }
+                obstaclePositions.ForEach(pos => { if ((pos - _intersection.Position).LengthFast > 20 && _rand.Next(4) == 0) wallsColliders.Add(ObstacleFactory.NewObstacle(pos + interDir * _rand.Next(-1, 1) * 2, direction)); });
 
                 var w1p1 = new Vector3(new Vector4(-3f, 0f, -7f, 1) * rotation);
                 var w1p2 = new Vector3(new Vector4(3f, 5f, -6f, 1) * rotation);

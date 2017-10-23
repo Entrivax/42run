@@ -26,6 +26,7 @@ namespace _42run.GameStates
         private SpriteSheet _playerSpriteSheet;
 
         private Object3D _groundMesh;
+        private Object3D _groundStairsMesh;
         private Object3D _groundClusterMesh;
         private Object3D _cubeMesh;
         private Object3D _interLeftMesh;
@@ -45,9 +46,8 @@ namespace _42run.GameStates
 
         public GameStatePlay(string playerSkin)
         {
-            _backColor = new Color4(0f, 0f, 0f, 1f);
-
-
+            _backColor = new Color4(0.6f, 0.8f, 0.85f, 1f);
+            
             // SHADERS RETRIEVING *********************************************************** //
             _flatColorShader = ShaderManager.Get("FlatColorShader");
             _baseShader = ShaderManager.Get("Shader");
@@ -82,6 +82,11 @@ namespace _42run.GameStates
             _groundMesh.LoadInGl(_baseShader);
 
             GroundSimple.MeshToUse = _groundMesh;
+
+            _groundStairsMesh = new Object3D("stairs.obj", false, false, true);
+            _groundStairsMesh.LoadInGl(_baseShader);
+
+            GroundStairs.MeshToUse = _groundStairsMesh;
 
             _groundClusterMesh = new Object3D("cluster.obj", false, false, true);
             _groundClusterMesh.LoadInGl(_baseShader);
@@ -286,6 +291,8 @@ namespace _42run.GameStates
             _scoreText = null;
             _groundMesh.Dispose();
             _groundMesh = null;
+            _groundStairsMesh.Dispose();
+            _groundStairsMesh = null;
             _groundClusterMesh.Dispose();
             _groundClusterMesh = null;
             _cubeMesh.Dispose();

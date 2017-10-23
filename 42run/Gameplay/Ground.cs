@@ -10,5 +10,6 @@ namespace _42run.Gameplay
         public Vector3 Position;
         public float Length;
         public Direction Direction;
+        public Vector3[] PossibleObstaclePositions = new Vector3[0];
     }
 }

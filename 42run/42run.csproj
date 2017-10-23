@@ -62,6 +62,7 @@
     <Compile Include="Gameplay\GroundCluster.cs" />
     <Compile Include="Gameplay\GroundFactory.cs" />
     <Compile Include="Gameplay\GroundSimple.cs" />
+    <Compile Include="Gameplay\GroundStairs.cs" />
     <Compile Include="Gameplay\Intersection.cs" />
     <Compile Include="Gameplay\Obstacle.cs" />
     <Compile Include="Gameplay\ObstacleFactory.cs" />

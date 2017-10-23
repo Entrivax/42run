@@ -2,6 +2,7 @@
 
 #define FOG_START 20
 #define FOG_END 60
+#define FOG_COLOR 0.6, 0.8, 0.85
 
 in vec2 ppos;
 in vec2 uv;
@@ -21,5 +22,5 @@ vec3 hsv2rgb(vec3 c) {
 void main(void)
 {
 	float fog = clamp((FOG_END - dist) / (FOG_END - FOG_START), 0.0, 1.0);
-	color = mix(texture(tex, uv), vec4(0, 0, 0, 1), 1 - fog);//vec4(hsv2rgb(vec3(ppos.x, 1.0, 1.0)), 1.0);
+	color = mix(texture(tex, uv), vec4(FOG_COLOR, 1), 1 - fog);//vec4(hsv2rgb(vec3(ppos.x, 1.0, 1.0)), 1.0);
 }

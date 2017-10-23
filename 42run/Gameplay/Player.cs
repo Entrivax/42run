@@ -9,8 +9,8 @@ namespace _42run.Gameplay
         private float _lastY = 0;
         public Vector3 PositionForCamera => new Vector3(Position.X, _lastY, Position.Z);
         public float Speed { get; set; }
-        private const float _speedIncrease = 1f;
-        private const float _maxSpeed = 22.5f;
+        private const float _speedIncrease = 0.1f;
+        private const float _maxSpeed = 32.5f;
         private static Vector3 _bbP1 = new Vector3(-0.6375f, 0, -0.65f);
         private static Vector3 _bbP2 = new Vector3(0.6375f, 1.7f, 0f);
         private static AxisAlignedBB[] _boundingBoxes = new[]

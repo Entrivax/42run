@@ -8,16 +8,35 @@ namespace _42run.Gameplay
     {
         private static Random _random = new Random();
 
-        public static Ground NewGround(Vector3 position, Direction direction, out Vector3 next)
+        public static Ground[] NewGround(Vector3 position, Direction direction, out Vector3 next)
         {
-            var groundNum = _random.Next(0, 2);
-            Ground ground;
-            if (groundNum == 0)
-                ground = new GroundSimple(direction) { Position = position };
+            var groundNum = _random.Next(0, 100);
+            Ground[] grounds;
+            if (groundNum < 80)
+            {
+                var ground = new GroundSimple(direction) { Position = position };
+                grounds = new[] { ground };
+                next = position + DirectionHelper.GetVectorFromDirection(direction) * ground.Length;
+            }
+            else if (groundNum < 90)
+            {
+                var ground = new GroundCluster(direction) { Position = position };
+                grounds = new[] { ground };
+                next = position + DirectionHelper.GetVectorFromDirection(direction) * ground.Length;
+            }
             else
-                ground = new GroundCluster(direction) { Position = position };
-            next = position + DirectionHelper.GetVectorFromDirection(direction) * ground.Length;
-            return ground;
+            {
+                var groundCount = _random.Next(5, 10);
+                grounds = new Ground[groundCount];
+                next = position;
+                for (int i = 0; i < groundCount; i++)
+                {
+                    var ground = new GroundStairs(direction) { Position = next };
+                    grounds[i] = ground;
+                    next = next + DirectionHelper.GetVectorFromDirection(direction) * ground.Length + new Vector3(0, 0.3f, 0);
+                }
+            }
+            return grounds;
         }
 
         public static Intersection NewIntersection(Player player, World world, Vector3 position, Direction direction, int directions)

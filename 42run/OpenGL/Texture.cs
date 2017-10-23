@@ -47,7 +47,8 @@ namespace _42run.OpenGL
 
         private void LoadBitmap(Bitmap bitmap, bool disposeBitmap, TextureMinFilter minFilter, TextureMagFilter magFilter)
         {
-            GL.GenTextures(1, out int texId);
+            int texId;
+            GL.GenTextures(1, out texId);
             Id = texId;
             GL.BindTexture(TextureTarget.Texture2D, Id);
 

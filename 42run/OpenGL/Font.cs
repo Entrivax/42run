@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _42run.Properties;
+using System;
 
 namespace _42run.OpenGL
 {
@@ -16,7 +17,7 @@ namespace _42run.OpenGL
         public Font(string path, string availableChars, float charWidth, float charHeight)
         {
             _availableChars = availableChars;
-            Texture = new Texture(path);
+            Texture = new Texture(Resources.ResourcesDirectory + path);
             CharTextureLength = ((charWidth * _availableChars.Length) / Texture.Width) / _availableChars.Length;
             CharTextureHeight = charHeight / Texture.Height;
 

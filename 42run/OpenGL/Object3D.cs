@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using _42run.Properties;
+using OpenTK;
 using OpenTK.Graphics;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace _42run.OpenGL
             Dictionary<string, Material> materials = new Dictionary<string, Material>();
             var mesh = new Mesh();
             Meshs = new[] { mesh };
-            using (var reader = File.OpenText(path))
+            using (var reader = File.OpenText(Resources.ResourcesDirectory + path))
             {
                 var line = "";
                 Mesh currentMesh = null;
@@ -98,7 +99,7 @@ namespace _42run.OpenGL
         private Dictionary<string, Material> LoadMtl(string path)
         {
             var materials = new Dictionary<string, Material>();
-            using (var reader = File.OpenText(path))
+            using (var reader = File.OpenText(Resources.ResourcesDirectory + path))
             {
                 var line = "";
                 Material currentMaterial = null;

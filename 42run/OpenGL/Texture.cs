@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace _42run.OpenGL
 {
@@ -32,7 +33,7 @@ namespace _42run.OpenGL
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public Texture(string file, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear) : this(new Bitmap(file), true, minFilter, magFilter) { }
+        public Texture(string file, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear) : this(File.Exists(file) ? new Bitmap(file) : throw new FileNotFoundException($"Texture not found : {file}", file), true, minFilter, magFilter) { }
 
         public Texture(Bitmap bitmap, bool disposeBitmap = false, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
         {

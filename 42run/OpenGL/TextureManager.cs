@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using _42run.Properties;
+using OpenTK.Graphics.OpenGL4;
 using System.Collections.Generic;
 
 namespace _42run.OpenGL
@@ -11,7 +12,7 @@ namespace _42run.OpenGL
         {
             if (_textures.ContainsKey(name))
                 return _textures[name];
-            var texture = new Texture(name, minFilter, magFilter);
+            var texture = new Texture(Resources.ResourcesDirectory + name, minFilter, magFilter);
             _textures.Add(name, texture);
             return _textures[name];
         }

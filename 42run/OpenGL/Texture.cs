@@ -33,9 +33,19 @@ namespace _42run.OpenGL
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public Texture(string file, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear) : this(File.Exists(file) ? new Bitmap(file) : throw new FileNotFoundException($"Texture not found : {file}", file), true, minFilter, magFilter) { }
+        public Texture(string file, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
+        {
+            if (!File.Exists(file))
+                throw new FileNotFoundException($"Texture not found : {file}", file);
+            LoadBitmap(new Bitmap(file), true, minFilter, magFilter);
+        }
 
         public Texture(Bitmap bitmap, bool disposeBitmap = false, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
+        {
+            LoadBitmap(bitmap, disposeBitmap, minFilter, magFilter);
+        }
+
+        private void LoadBitmap(Bitmap bitmap, bool disposeBitmap, TextureMinFilter minFilter, TextureMagFilter magFilter)
         {
             GL.GenTextures(1, out int texId);
             Id = texId;

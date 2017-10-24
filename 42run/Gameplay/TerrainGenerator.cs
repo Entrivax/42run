@@ -32,6 +32,7 @@ namespace _42run.Gameplay
         private void GenerateTerrain()
         {
             TerrainRemover leftTerrainRemover = null;
+            var coinsOffset = new Vector3(0, 0.3f, 0);
             if((_intersection.Directions & (int)Intersection.IntersectionDirection.LEFT) > 0)
             {
                 var dir = (int)_intersection.Direction - 1;
@@ -56,8 +57,19 @@ namespace _42run.Gameplay
 
                 var rotation = DirectionHelper.GetRotationFromDirection(direction);
                 var wallsColliders = new List<Obstacle>();
+                var coins = new List<Coin>();
 
-                obstaclePositions.ForEach(pos => { if ((pos - _intersection.Position).LengthFast > 20 && _rand.Next(4) == 0) wallsColliders.Add(ObstacleFactory.NewObstacle(pos + interDir * _rand.Next(-1, 1) * 2, direction)); });
+                obstaclePositions.ForEach(pos => {
+                    if ((pos - _intersection.Position).LengthFast > 20)
+                    {
+                        var randValue = _rand.Next(4);
+                        if (randValue == 0)
+                            wallsColliders.Add(ObstacleFactory.NewObstacle(pos + interDir * _rand.Next(-1, 1) * 2, direction));
+                        else if (randValue == 1)
+                            coins.Add(new Coin(pos + interDir * _rand.Next(-1, 1) * 2 + coinsOffset));
+                    }
+                });
+                _player.World.Coins.AddRange(coins);
 
                 var w1p1 = new Vector3(new Vector4(-3f, 0f, -7f, 1) * rotation);
                 var w1p2 = new Vector3(new Vector4(3f, 5f, -6f, 1) * rotation);
@@ -77,7 +89,7 @@ namespace _42run.Gameplay
                 _player.World.Obstacles.AddRange(wallsColliders);
                 var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
                 var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
-                leftTerrainRemover = new TerrainRemover(_player, generatedGrounds, new List<Trigger>(_player.World.TriggersToAdd.ToArray()), wallsColliders) { Position = _intersection.Position + dirVector * 12f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
+                leftTerrainRemover = new TerrainRemover(_player, generatedGrounds, new List<Trigger>(_player.World.TriggersToAdd.ToArray()), wallsColliders, coins) { Position = _intersection.Position + dirVector * 12f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
                 _player.World.TriggersToAdd.Add(leftTerrainRemover);
             }
             if ((_intersection.Directions & (int)Intersection.IntersectionDirection.RIGHT) > 0)
@@ -109,8 +121,19 @@ namespace _42run.Gameplay
 
                 var rotation = DirectionHelper.GetRotationFromDirection(direction);
                 var wallsColliders = new List<Obstacle>();
+                var coins = new List<Coin>();
 
-                obstaclePositions.ForEach(pos => { if ((pos - _intersection.Position).LengthFast > 20 && _rand.Next(4) == 0) wallsColliders.Add(ObstacleFactory.NewObstacle(pos + interDir * _rand.Next(-1, 1) * 2, direction)); });
+                obstaclePositions.ForEach(pos => {
+                    if ((pos - _intersection.Position).LengthFast > 20)
+                    {
+                        var randValue = _rand.Next(4);
+                        if (randValue == 0)
+                            wallsColliders.Add(ObstacleFactory.NewObstacle(pos + interDir * _rand.Next(-1, 1) * 2, direction));
+                        else if (randValue == 1)
+                            coins.Add(new Coin(pos + interDir * _rand.Next(-1, 1) * 2 + coinsOffset));
+                    }
+                });
+                _player.World.Coins.AddRange(coins);
 
                 var w1p1 = new Vector3(new Vector4(-3f, 0f, -7f, 1) * rotation);
                 var w1p2 = new Vector3(new Vector4(3f, 5f, -6f, 1) * rotation);
@@ -130,7 +153,7 @@ namespace _42run.Gameplay
                 _player.World.Obstacles.AddRange(wallsColliders);
                 var ap1 = new Vector3(new Vector4(-3f, 0f, -6f, 1) * rotation);
                 var ap2 = new Vector3(new Vector4(3f, 5f, 0f, 1) * rotation);
-                var terrainRemover = new TerrainRemover(_player, generatedGrounds, triggersToKeep, wallsColliders) { Position = _intersection.Position + dirVector * 12f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
+                var terrainRemover = new TerrainRemover(_player, generatedGrounds, triggersToKeep, wallsColliders, coins) { Position = _intersection.Position + dirVector * 12f + DirectionHelper.GetVectorFromDirection(_intersection.Direction) * 3f, BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(ap1, ap2), Vector3.ComponentMax(ap1, ap2)) };
                 _player.World.TriggersToAdd.Add(terrainRemover);
             }
         }

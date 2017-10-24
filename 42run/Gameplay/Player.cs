@@ -135,6 +135,13 @@ namespace _42run.Gameplay
 
             if (CollideWithObstacle())
                 Dead = true;
+
+            var coin = GetCoin();
+            if (coin != null)
+            {
+                World.Coins.Remove(coin);
+                Score += 20;
+            }
         }
 
         private Matrix3 _rotationRight = Matrix3.CreateRotationY(-MathHelper.PiOver2);
@@ -149,6 +156,12 @@ namespace _42run.Gameplay
             var pos = GetPosition();
             var typeInter = typeof(Intersection);
             return (Intersection)World.Grounds.FirstOrDefault(g => g.GetType() == typeInter && BoundingBox.IntersectWith(pos, ((Intersection)g).ActivableBoundingBox, g.Position) && !((Intersection)g).Used);
+        }
+
+        public Coin GetCoin()
+        {
+            var pos = GetPosition();
+            return World.Coins.FirstOrDefault(coin => BoundingBox.IntersectWith(pos, Coin.BoundingBox, coin.Position));
         }
 
         public bool CollideWithObstacle()

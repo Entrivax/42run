@@ -9,6 +9,7 @@ namespace _42run.Gameplay
         public List<Trigger> Triggers { get; private set; }
         public List<Trigger> TriggersToAdd { get; private set; }
         public List<Trigger> TriggersToRemove { get; private set; }
+        public List<Coin> Coins { get; private set; }
 
         public World()
         {
@@ -17,6 +18,7 @@ namespace _42run.Gameplay
             Triggers = new List<Trigger>();
             TriggersToAdd = new List<Trigger>();
             TriggersToRemove = new List<Trigger>();
+            Coins = new List<Coin>();
         }
 
         public void Update()

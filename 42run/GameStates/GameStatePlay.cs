@@ -33,6 +33,7 @@ namespace _42run.GameStates
         private Object3D _interRightMesh;
         private Object3D _interLeftRightMesh;
         private Object3D _trashMesh;
+        private Object3D _coinMesh;
         private Object3D _playerMesh;
 
         private Matrix4 _proj;
@@ -43,6 +44,7 @@ namespace _42run.GameStates
         private Color4 _backColor;
         private int _width;
         private int _height;
+        private float _coinsRotation;
 
         public GameStatePlay(string playerSkin)
         {
@@ -118,6 +120,11 @@ namespace _42run.GameStates
 
             ObstacleTrash.MeshToUse = _trashMesh;
 
+            _coinMesh = new Object3D("coin.obj", false, false, true);
+            _coinMesh.LoadInGl(_baseShader);
+
+            Coin.MeshToUse = _coinMesh;
+
 
             // WORLD INITIALISATION ********************************************************* //
             _world = new World();
@@ -158,6 +165,7 @@ namespace _42run.GameStates
 
                 _camera.Target = playerPosition + new Vector3(0, 2.5f, 0);
                 _camera.UpdateCameraPosition(playerPosition + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f) + new Vector3(0, 3, 0), (float)deltaTime, 5f);
+                _coinsRotation += 0.1f;
             }
         }
 
@@ -231,6 +239,17 @@ namespace _42run.GameStates
                     model = trigger.BoundingBox.CreateModelMatrix() * Matrix4.CreateTranslation(trigger.Position);
                     viewModel = model * view;
                     _baseShader.SetUniformMatrix4("view", false, ref viewModel);
+                }
+
+                var coinRotationMatrix = Matrix4.CreateRotationY(_coinsRotation);
+                foreach (var coin in _world.Coins.ToArray())
+                {
+                    model = coinRotationMatrix * Matrix4.CreateTranslation(coin.Position);
+                    viewModel = model * view;
+                    color = new Vector3(1f, 1f, 1f);
+                    _baseShader.SetUniform3("col", ref color);
+                    _baseShader.SetUniformMatrix4("view", false, ref viewModel);
+                    coin.Mesh.Draw();
                 }
 
                 _baseShader.Unbind();

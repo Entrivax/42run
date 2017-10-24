@@ -123,7 +123,7 @@ namespace _42run.GameStates
             _world = new World();
             // PLAYER INITIALISATION ******************************************************** //
             _player = new Player { World = _world, Position = new Vector3(0, 0, -3f), Speed = 12.5f };
-            _camera = new Camera(new Vector3(0, 1f, -6f), _player.PositionForCamera + new Vector3(0, 2.5f, 0), (float)(80f * (Math.PI / 180f)));
+            _camera = new Camera(new Vector3(0, 2f, 2f), _player.PositionForCamera + new Vector3(0, 2.5f, 0), (float)(80f * (Math.PI / 180f)));
 
             // TERRAIN GENERATION *********************************************************** //
             var tilesToGenerate = 10;

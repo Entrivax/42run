@@ -11,8 +11,8 @@ namespace _42run.Gameplay
         public float Speed { get; set; }
         private const float _speedIncrease = 0.1f;
         private const float _maxSpeed = 32.5f;
-        private static Vector3 _bbP1 = new Vector3(-0.6375f, 0, -0.65f);
-        private static Vector3 _bbP2 = new Vector3(0.6375f, 1.7f, 0f);
+        private static Vector3 _bbP1 = new Vector3(-0.4375f, 0, -0.45f);
+        private static Vector3 _bbP2 = new Vector3(0.4375f, 1.7f, 0f);
         private static AxisAlignedBB[] _boundingBoxes = new[]
         {
             new AxisAlignedBB(_bbP1, _bbP2),

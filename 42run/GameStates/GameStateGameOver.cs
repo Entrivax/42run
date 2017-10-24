@@ -21,6 +21,7 @@ namespace _42run.GameStates
         private Shader _flatColorShader;
 
         private Text _scoreText;
+        private Text _gameOverText;
         private Text _nameText;
         private Text _scoreboardText;
         private Text _scoreboardNameText;
@@ -44,6 +45,7 @@ namespace _42run.GameStates
             _finalScore = finalScore;
             _font = FontManager.Get("glyphs");
             _flatColorShader = ShaderManager.Get("FlatColorShader");
+            _gameOverText = new Text(new Vector2(10, 10), _font, _flatColorShader, Text.Alignment.MIDDLE, "Game Over");
             _scoreText = new Text(new Vector2(10, 10), _font, _flatColorShader, Text.Alignment.MIDDLE, $"Your final score: {_finalScore}");
             _name = "";
             _nameText = new Text(new Vector2(10, 10), _font, _flatColorShader, Text.Alignment.LEFT, "");
@@ -55,6 +57,8 @@ namespace _42run.GameStates
 
         public void Dispose()
         {
+            _gameOverText.Dispose();
+            _gameOverText = null;
             _scoreText.Dispose();
             _scoreText = null;
             _nameText.Dispose();
@@ -86,6 +90,11 @@ namespace _42run.GameStates
                 _flatColorShader.SetUniformMatrix4("view", false, ref viewModel);
 
                 _scoreText.Draw();
+
+                viewModel = Matrix4.CreateTranslation(new Vector3(_gameOverText.Position + textOffset));
+                _flatColorShader.SetUniformMatrix4("view", false, ref viewModel);
+
+                _gameOverText.Draw();
 
                 viewModel = Matrix4.CreateTranslation(new Vector3(_nameText.Position + textOffset));
                 _flatColorShader.SetUniformMatrix4("view", false, ref viewModel);
@@ -185,6 +194,7 @@ namespace _42run.GameStates
             _height = height;
             
             _guiProj = Matrix4.CreateOrthographic(_width, _height, 0, 1);
+            _gameOverText.Position = new Vector2(_width / 2, _height / 4 * 3 - _font.Texture.Height / 2);
             _scoreText.Position = new Vector2(_width / 2, _height / 2 - _font.Texture.Height / 2 + 20);
             _nameText.Position = new Vector2(_width / 2 - _font.GetStringWidth(_name) / 2, _height / 2 - _font.Texture.Height / 2 - 20);
             _scoreboardText.Position = new Vector2((_width / 5) * 4, _height / 5 * 4 - _font.Texture.Height / 2 + 45);

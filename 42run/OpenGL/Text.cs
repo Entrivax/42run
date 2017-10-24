@@ -42,6 +42,7 @@ namespace _42run.OpenGL
         }
 
         private string _str;
+        private int _trianglesCount;
         public string Str
         {
             get { return _str; }
@@ -84,7 +85,9 @@ namespace _42run.OpenGL
             if (_vbo == null)
                 _vbo = new Vbo();
             _vbo.Bind();
-            _vbo.SetData(chars.ToArray());
+            var charsArray = chars.ToArray();
+            _trianglesCount = charsArray.Length;
+            _vbo.SetData(charsArray);
             _vbo.Unbind();
 
             if (_vao == null)
@@ -101,8 +104,9 @@ namespace _42run.OpenGL
             Shader.SetUniform3("col", ref color);
             TextureManager.Use(Font.Texture);
             _vao.Bind();
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, _str.Length * 6);
+            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, _trianglesCount);
+            _vao.Unbind();
             TextureManager.Disable();
         }
     }

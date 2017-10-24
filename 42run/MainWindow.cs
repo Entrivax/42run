@@ -12,6 +12,7 @@ namespace _42run
     {
         IGameState _gameState;
         public static MainWindow Instance;
+        private bool _skipNextUpdate = false;
 
         public MainWindow() : base(1280, 720, GraphicsMode.Default, "42run", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.Default)
         {
@@ -68,6 +69,7 @@ namespace _42run
         {
             _gameState = gameState;
             _gameState.Resize(Width, Height);
+            _skipNextUpdate = true;
         }
 
         public static void SetGameState(IGameState gameState)
@@ -97,6 +99,12 @@ namespace _42run
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
+            if (_skipNextUpdate)
+            {
+                _skipNextUpdate = false;
+                return;
+            }
+
             HandleKeyboard();
 
             _gameState?.Update(e.Time);

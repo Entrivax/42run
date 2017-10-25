@@ -14,8 +14,8 @@ namespace _42run.Gameplay
         private float _lastEmitted;
         private float _lifeTime;
         private float _spawnAngle;
-        private float _minCoinSpeed;
-        private float _coinSpeedVariation;
+        public float MinCoinSpeed { get; set; }
+        public float CoinSpeedVariation { get; set; }
         private CloneableCoin _coinToClone;
         private Random _rand;
 
@@ -28,8 +28,8 @@ namespace _42run.Gameplay
             _toEmit = toEmit;
             _emittionRate = emittionRate;
             _spawnAngle = spawnAngle;
-            _minCoinSpeed = minCoinSpeed;
-            _coinSpeedVariation = maxCoinSpeed - minCoinSpeed;
+            MinCoinSpeed = minCoinSpeed;
+            CoinSpeedVariation = maxCoinSpeed - minCoinSpeed;
             _rand = new Random();
         }
 
@@ -46,7 +46,7 @@ namespace _42run.Gameplay
                 for(int i = 0; i < numberToEmit; i++)
                 {
                     var coin = (CloneableCoin)_coinToClone.Clone();
-                    coin.Velocity = Matrix3.CreateRotationZ(((float)_rand.NextDouble() - 0.5f) * _spawnAngle) * new Vector3(0, 1, 0) * (_minCoinSpeed + (float)_rand.NextDouble() * _coinSpeedVariation);
+                    coin.Velocity = Matrix3.CreateRotationZ(((float)_rand.NextDouble() - 0.5f) * _spawnAngle) * new Vector3(0, 1, 0) * (MinCoinSpeed + (float)_rand.NextDouble() * CoinSpeedVariation);
                     coin.Position = Position;
                     coin.RotationVelocity = new Vector3(((float)_rand.NextDouble() - 0.5f) * 2f, ((float)_rand.NextDouble() - 0.5f) * 2f, ((float)_rand.NextDouble() - 0.5f) * 2f);
                     coin.SetRotations(new Vector3((float)_rand.NextDouble() - 0.5f, (float)_rand.NextDouble() - 0.5f, (float)_rand.NextDouble() - 0.5f));

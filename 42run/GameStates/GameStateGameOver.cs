@@ -227,6 +227,8 @@ namespace _42run.GameStates
             _scoreboardNameText.Position = new Vector2((_width / 5) * 4 - 10, _height / 5 * 4 - _font.Texture.Height / 2);
             _scoreboardScoreText.Position = new Vector2((_width / 5) * 4 + 10, _height / 5 * 4 - _font.Texture.Height / 2);
             _coinEmitter.Position = new Vector3(0, -_height / 2 - 100, 0);
+            _coinEmitter.MinCoinSpeed = (float)Math.Sqrt(_height) * 35f;
+            _coinEmitter.CoinSpeedVariation = _height / 2f;
         }
 
         public void Update(double deltaTime)

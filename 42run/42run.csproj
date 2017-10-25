@@ -56,7 +56,9 @@
   <ItemGroup>
     <Compile Include="Gameplay\AxisAlignedBB.cs" />
     <Compile Include="Gameplay\Camera.cs" />
+    <Compile Include="Gameplay\CloneableCoin.cs" />
     <Compile Include="Gameplay\Coin.cs" />
+    <Compile Include="Gameplay\CoinEmitter.cs" />
     <Compile Include="Gameplay\Direction.cs" />
     <Compile Include="Gameplay\Ground.cs" />
     <Compile Include="Gameplay\GroundCluster.cs" />

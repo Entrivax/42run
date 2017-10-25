@@ -38,6 +38,12 @@ namespace _42run.GameStates
         private double _time;
 
         private string _name;
+
+        private Object3D _coinMesh;
+
+        private CoinEmitter _coinEmitter;
+        private CloneableCoin _coinReference;
+        private List<CloneableCoin> _coins;
         
         public GameStateGameOver(int finalScore)
         {
@@ -52,6 +58,13 @@ namespace _42run.GameStates
             _scoreboardText = new Text(new Vector2(10, 10), _font, _flatColorShader, Text.Alignment.MIDDLE, "Scoreboard");
             _scoreboardNameText = new Text(new Vector2(10, 10), _font, _flatColorShader, Text.Alignment.RIGHT, "");
             _scoreboardScoreText = new Text(new Vector2(10, 10), _font, _flatColorShader, Text.Alignment.LEFT, "");
+
+            _coinMesh = new Object3D("coin.obj", false, false, true);
+            _coinMesh.LoadInGl(_flatColorShader);
+
+            _coins = new List<CloneableCoin>();
+            _coinReference = new CloneableCoin(_coinMesh);
+            _coinEmitter = new CoinEmitter(ref _coins, _coinReference, new Vector3(0, _height, 0), 0.2f, _finalScore / 20, (float)(80f * (Math.PI / 180f)), 1000, 1200);
             DownloadScores();
         }
 
@@ -69,6 +82,8 @@ namespace _42run.GameStates
             _scoreboardNameText = null;
             _scoreboardScoreText.Dispose();
             _scoreboardScoreText = null;
+            _coinMesh.Dispose();
+			_coinMesh = null;
         }
 
         public void Draw(double deltaTime)
@@ -81,12 +96,23 @@ namespace _42run.GameStates
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             {
+                _flatColorShader.Bind();
+
+                var scale = Matrix4.CreateScale(100, 100, 1f);
+                Matrix4 viewModel;
+                _flatColorShader.SetUniformMatrix4("proj", false, ref _guiProj);
+                _coins.ForEach(coin =>
+                {
+                    viewModel = Matrix4.CreateFromQuaternion(coin.Rotation) * scale * Matrix4.CreateTranslation(new Vector3(coin.Position));
+                    _flatColorShader.SetUniformMatrix4("view", false, ref viewModel);
+                    coin.Mesh.Draw();
+                });
+
+
                 GL.Disable(EnableCap.DepthTest);
                 GL.Enable(EnableCap.Blend);
-                _flatColorShader.Bind();
-                
-                _flatColorShader.SetUniformMatrix4("proj", false, ref _guiProj);
-                var viewModel = Matrix4.CreateTranslation(new Vector3(_scoreText.Position + textOffset));
+
+                viewModel = Matrix4.CreateTranslation(new Vector3(_scoreText.Position + textOffset));
                 _flatColorShader.SetUniformMatrix4("view", false, ref viewModel);
 
                 _scoreText.Draw();
@@ -193,18 +219,26 @@ namespace _42run.GameStates
             _width = width;
             _height = height;
             
-            _guiProj = Matrix4.CreateOrthographic(_width, _height, 0, 1);
+            _guiProj = Matrix4.CreateOrthographic(_width, _height, -1, 1);
             _gameOverText.Position = new Vector2(_width / 2, _height / 4 * 3 - _font.Texture.Height / 2);
             _scoreText.Position = new Vector2(_width / 2, _height / 2 - _font.Texture.Height / 2 + 20);
             _nameText.Position = new Vector2(_width / 2 - _font.GetStringWidth(_name) / 2, _height / 2 - _font.Texture.Height / 2 - 20);
             _scoreboardText.Position = new Vector2((_width / 5) * 4, _height / 5 * 4 - _font.Texture.Height / 2 + 45);
             _scoreboardNameText.Position = new Vector2((_width / 5) * 4 - 10, _height / 5 * 4 - _font.Texture.Height / 2);
             _scoreboardScoreText.Position = new Vector2((_width / 5) * 4 + 10, _height / 5 * 4 - _font.Texture.Height / 2);
+            _coinEmitter.Position = new Vector3(0, -_height / 2 - 100, 0);
         }
 
         public void Update(double deltaTime)
         {
             _time += deltaTime;
+
+            _coinEmitter.Update(deltaTime);
+            _coins.ForEach(coin =>
+            {
+                coin.Update(deltaTime);
+            });
+            _coins.RemoveAll(coin => coin.LifeTime > 5);
 
             if ((int)(_time * 2) % 2 == 1)
             {

@@ -18,7 +18,7 @@ namespace _42run.Gameplay
             PossibleObstaclePositions = new Vector3[2];
             for (int i = 0; i < 2; i++)
             {
-                PossibleObstaclePositions[i] = (new Vector4(0, 0, -(i + 1) * 3, 1) * rotation).Xyz;
+                PossibleObstaclePositions[i] = (new Vector4(0, 0, -i * 3, 1) * rotation).Xyz;
             }
             BoundingBox = new AxisAlignedBB(Vector3.ComponentMin(p1.Xyz, p2.Xyz), Vector3.ComponentMax(p1.Xyz, p2.Xyz));
         }

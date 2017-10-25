@@ -29,7 +29,7 @@ namespace _42run.Gameplay
         private const float _jumpPower = 0.4f;
         private float _yVelocity = 0f;
         private bool _onGround = true;
-        private const float _maxStepSize = 0.4f;
+        private const float _maxStepSize = 0.8f;
         public bool Dead = false;
         public Direction CurrentDirection = Direction.NORTH;
         public float Score = 0f;

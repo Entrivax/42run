@@ -173,7 +173,8 @@ namespace _42run.GameStates
             {
                 WebClient client = new WebClient();
                 var scoresString = client.DownloadString("https://entrivax.fr/42run/scores");
-                var scores = JsonConvert.DeserializeObject<List<ScoreObject>>(scoresString);
+                var downloadedScores = JsonConvert.DeserializeObject<List<ScoreObject>>(scoresString);
+                var scores = downloadedScores.Take(15);
                 var namesColumn = scores.Select(score => score.Name).Aggregate((a, b) => a + "\n" + b);
                 var scoresColumn = scores.Select(score => score.Score.ToString()).Aggregate((a, b) => a + "\n" + b);
                 _scoreboardNameText.Str = namesColumn;

@@ -23,6 +23,7 @@ namespace _42run
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(0, 0, Width, Height);
+            _skipNextUpdate = true;
             _gameState?.Resize(Width, Height);
         }
 
@@ -43,6 +44,12 @@ namespace _42run
                 Environment.Exit(1);
             }
             base.OnLoad(e);
+        }
+
+        protected override void OnMove(EventArgs e)
+        {
+            _skipNextUpdate = true;
+            base.OnMove(e);
         }
 
         private void OnKeyDown(object sender, KeyboardKeyEventArgs e)

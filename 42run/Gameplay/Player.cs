@@ -132,6 +132,8 @@ namespace _42run.Gameplay
 
             if (_onGround)
                 _lastY = Position.Y;
+            else if (Position.Y < _lastY - 5f)
+                Dead = true;
 
             if (CollideWithObstacle())
                 Dead = true;

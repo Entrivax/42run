@@ -37,12 +37,15 @@ namespace _42run.OpenGL
         {
             if (!File.Exists(file))
                 throw new FileNotFoundException($"Texture not found : {file}", file);
-            LoadBitmap(new Bitmap(file), true, minFilter, magFilter);
+            var bitmap = new Bitmap(file);
+            LoadBitmap(bitmap, true, minFilter, magFilter);
+            bitmap = null;
         }
 
         public Texture(Bitmap bitmap, bool disposeBitmap = false, TextureMinFilter minFilter = TextureMinFilter.Linear, TextureMagFilter magFilter = TextureMagFilter.Linear)
         {
             LoadBitmap(bitmap, disposeBitmap, minFilter, magFilter);
+            bitmap = null;
         }
 
         private void LoadBitmap(Bitmap bitmap, bool disposeBitmap, TextureMinFilter minFilter, TextureMagFilter magFilter)
@@ -63,6 +66,8 @@ namespace _42run.OpenGL
 
             if (disposeBitmap)
                 bitmap.Dispose();
+
+            bitmap = null;
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)minFilter);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)magFilter);

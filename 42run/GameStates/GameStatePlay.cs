@@ -38,8 +38,7 @@ namespace _42run.GameStates
 
         private Matrix4 _proj;
         private Matrix4 _guiProj;
-
-        private bool _pause;
+        
         private double _time;
         private Color4 _backColor;
         private int _width;
@@ -147,26 +146,26 @@ namespace _42run.GameStates
             var w2p1 = new Vector3(new Vector4(3f, 0f, -6f, 1) * rotation);
             var w2p2 = new Vector3(new Vector4(4f, 5f, 0f, 1) * rotation);
             _world.Obstacles.Add(new Obstacle(new AxisAlignedBB(Vector3.ComponentMin(w2p1, w2p2), Vector3.ComponentMax(w2p1, w2p2)), intersection.Position, Direction.NORTH));
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
         
         public void Update(double deltaTime)
         {
-            if (!_pause)
-            {
-                _player.Update(deltaTime);
+            _player.Update(deltaTime);
 
-                if (_player.Dead)
-                    MainWindow.SetGameState(new GameStateGameOver((int)_player.Score));
+            if (_player.Dead)
+                MainWindow.SetGameState(new GameStateGameOver((int)_player.Score));
 
-                _scoreText.Str = $"Score: {(int)_player.Score}";
-                _world.Update();
+            _scoreText.Str = $"Score: {(int)_player.Score}";
+            _world.Update();
 
-                var playerPosition = _player.PositionForCamera;
+            var playerPosition = _player.PositionForCamera;
 
-                _camera.Target = playerPosition + new Vector3(0, 2.5f, 0);
-                _camera.UpdateCameraPosition(playerPosition + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f) + new Vector3(0, 3, 0), (float)deltaTime, 5f);
-                _coinsRotation += 0.1f;
-            }
+            _camera.Target = playerPosition + new Vector3(0, 2.5f, 0);
+            _camera.UpdateCameraPosition(playerPosition + (-DirectionHelper.GetVectorFromDirection(_player.CurrentDirection) * 4f) + new Vector3(0, 3, 0), (float)deltaTime, 5f);
+            _coinsRotation += 0.1f;
         }
 
         public void Draw(double deltaTime)
@@ -187,7 +186,6 @@ namespace _42run.GameStates
                 _baseShader.Bind();
 
                 _baseShader.SetUniformMatrix4("proj", false, ref _proj);
-
 
                 model = _player.BoundingBox.CreateModelMatrix() * model;
 
@@ -332,10 +330,6 @@ namespace _42run.GameStates
 
         public void OnKeyPress(char key) { }
 
-        public void OnKeyDown(Key key)
-        {
-            if (key == Key.Space)
-                _pause = !_pause;
-        }
+        public void OnKeyDown(Key key) { }
     }
 }

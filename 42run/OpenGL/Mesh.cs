@@ -46,6 +46,7 @@ namespace _42run.OpenGL
                 new VertexAttribute("_pos", 3, VertexAttribPointerType.Float, Vector2.SizeInBytes + Vector3.SizeInBytes, 0),
                 new VertexAttribute("_uv", 2, VertexAttribPointerType.Float, Vector2.SizeInBytes + Vector3.SizeInBytes, Vector3.SizeInBytes),
             });
+            ClearVertices();
         }
 
         public void BindVao(Shader shader)
